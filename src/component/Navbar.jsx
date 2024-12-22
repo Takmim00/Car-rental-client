@@ -22,18 +22,18 @@ const Navbar = () => {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="/available-cars">Available Cars</Link>
+            <Link to="/availableCar">Available Cars</Link>
           </li>
           {user ? (
             <>
               <li>
-                <Link to="/add-car">Add Car</Link>
+                <Link to="/addCar">Add Car</Link>
               </li>
               <li>
-                <Link to="/my-cars">My Cars</Link>
+                <Link to="/myCar">My Cars</Link>
               </li>
               <li>
-                <Link to="/my-bookings">My Bookings</Link>
+                <Link to="/myBooking">My Bookings</Link>
               </li>
 
 
