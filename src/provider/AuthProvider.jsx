@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import {
   createUserWithEmailAndPassword,
-  GithubAuthProvider,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -11,11 +10,11 @@ import {
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase.config";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const authContext = createContext();
 
-const AuthProvider = ({routes}) => {
+const AuthProvider = ({ routes }) => {
   const googleProvider = new GoogleAuthProvider();
-  const githubProvider = new GithubAuthProvider();
 
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
@@ -61,9 +60,6 @@ const AuthProvider = ({routes}) => {
   const handleGoogleLogin = () => {
     return signInWithPopup(auth, googleProvider);
   };
-  const handleGithubLogin = () => {
-    signInWithPopup(auth, githubProvider);
-  };
 
   const authInfo = {
     user,
@@ -73,7 +69,6 @@ const AuthProvider = ({routes}) => {
     userLogin,
     loading,
     handleGoogleLogin,
-    handleGithubLogin,
   };
 
   return (
