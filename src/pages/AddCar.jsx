@@ -1,18 +1,47 @@
-import { useCallback, useState } from "react";
+import axios from "axios";
+import { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import axios from 'axios'
+import { authContext } from "../provider/AuthProvider";
 
 const AddCar = () => {
+  const { user } = useContext(authContext);
   const [uploadedImages, setUploadedImages] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
+
   const onDrop = useCallback((acceptedFiles) => {
     setUploadedImages((prevImages) => [...prevImages, ...acceptedFiles]);
   }, []);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
   const handleRemoveImage = (index) => {
     setUploadedImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    setImageUrls((prevUrls) => prevUrls.filter((_, i) => i !== index));
   };
 
-  const handleAddCar = async(e) => {
+  const uploadImage = async (file) => {
+    if (!file) return null;
+    const imgData = new FormData();
+    imgData.append("file", file);
+    console.log(file);
+    imgData.append("upload_preset", "Car_rental");
+    imgData.append("cloud_name", "dlogratts");
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/dlogratts/image/upload`,
+      {
+        method: "POST",
+        body: imgData,
+      }
+    );
+    console.log(res);
+    const uploadedImageData = await res.json();
+    const uploadedImageUrl = uploadedImageData.url;
+
+    console.log(uploadedImageUrl);
+    return uploadedImageUrl;
+  };
+
+  const handleAddCar = async (e) => {
     e.preventDefault();
     const form = e.target;
     const carModel = form.carModel.value;
@@ -23,6 +52,11 @@ const AddCar = () => {
     const description = form.description.value;
     const location = form.location.value;
 
+    const uploadedUrls = await Promise.all(
+      uploadedImages.map((file) => uploadImage(file))
+    );
+    setImageUrls(uploadedUrls);
+
     const addCar = {
       carModel,
       dailyRentalPrice,
@@ -30,12 +64,19 @@ const AddCar = () => {
       vehicleRegNumber,
       features,
       description,
-      image: uploadedImages,
+      images: uploadedUrls,
       location,
-      bookingCount:0,
+      bookingCount: 0,
+      user: user?.displayName, 
+      dateAdded: new Date().toISOString(), 
+      bookingStatus: "pending", 
     };
     console.log(addCar);
-    const {data}= await axios.post(`${import.meta.env.VITE_API_URL}/add-car`, addCar)
+
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_API_URL}/add-car`,
+      addCar
+    );
     console.log(data);
   };
   return (
@@ -151,7 +192,9 @@ const AddCar = () => {
                     key={index}
                     className="relative w-32 h-32 border rounded-lg overflow-hidden"
                   >
-                    <img
+                    <input
+                      type="image"
+                      name="files"
                       src={URL.createObjectURL(file)}
                       alt="Preview"
                       className="w-full h-full object-cover"
