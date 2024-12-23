@@ -8,7 +8,7 @@ const RecentListing = () => {
     const fetchCars = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/cars`
+          `${import.meta.env.VITE_API_URL}/cars/limit`
         );
         setCars(response.data);
       } catch (error) {
@@ -44,9 +44,7 @@ const RecentListing = () => {
                 {car.availability === "available" ? "Available" : "Unavailable"}
               </div>
               <div className="mt-2 text-sm text-gray-600">{car.location}</div>
-              <button className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">
-                Rent Now
-              </button>
+              
             </div>
           </div>
         ))}
