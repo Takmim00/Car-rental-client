@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import axios from 'axios'
 
 const AddCar = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
@@ -11,7 +12,7 @@ const AddCar = () => {
     setUploadedImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
-  const handleAddCar = (e) => {
+  const handleAddCar = async(e) => {
     e.preventDefault();
     const form = e.target;
     const carModel = form.carModel.value;
@@ -20,7 +21,6 @@ const AddCar = () => {
     const vehicleRegNumber = form.vehicleRegNumber.value;
     const features = form.features.value;
     const description = form.description.value;
-
     const location = form.location.value;
 
     const addCar = {
@@ -30,10 +30,13 @@ const AddCar = () => {
       vehicleRegNumber,
       features,
       description,
-      uploadedImages,
+      image: uploadedImages,
       location,
+      bookingCount:0,
     };
     console.log(addCar);
+    const {data}= await axios.post(`${import.meta.env.VITE_API_URL}/add-car`, addCar)
+    console.log(data);
   };
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
