@@ -2,13 +2,17 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateCar = () => {
+  const navigate = useNavigate()
   const { id } = useParams();
   const [uploadedImages, setUploadedImages] = useState([]);
+  const [features, setFeatures] = useState("");
+  const [availability, setAvailability] = useState("");
   const [imageUrls, setImageUrls] = useState([]);
-  const [car, setCar] = useState({})
+  const [car, setCar] = useState({});
+
 
 
   const onDrop = useCallback((acceptedFiles) => {
@@ -17,9 +21,14 @@ const UpdateCar = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handleRemoveImage = (index) => {
-    setUploadedImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    setImageUrls((prevUrls) => prevUrls.filter((_, i) => i !== index));
+  const handleRemoveImage = (index, type) => {
+    if (type === "url") {
+      setImageUrls((prevUrls) => prevUrls.filter((_, i) => i !== index));
+    } else if (type === "file") {
+      setUploadedImages((prevImages) =>
+        prevImages.filter((_, i) => i !== index)
+      );
+    }
   };
 
   const uploadImage = async (file) => {
@@ -36,13 +45,11 @@ const UpdateCar = () => {
         body: imgData,
       }
     );
-    console.log(res);
     const uploadedImageData = await res.json();
     const uploadedImageUrl = uploadedImageData.url;
-    console.log(uploadedImageUrl);
     return uploadedImageUrl;
   };
-  
+
   useEffect(() => {
     fetchJobData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,7 +61,27 @@ const UpdateCar = () => {
     );
     setCar(data);
     setImageUrls(data.images || []);
-  console.log(data);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    if (car.availability) {
+      setAvailability(car.availability);
+    }
+  }, [car]);
+
+  const handleAvailabilityChange = (e) => {
+    setAvailability(e.target.value);
+  };
+
+  useEffect(() => {
+    if (car.features) {
+      setFeatures(car.features);
+    }
+  }, [car]);
+
+  const handleFeaturesChange = (e) => {
+    setFeatures(e.target.value);
   };
 
   const handleUpdateCar = async (e) => {
@@ -67,9 +94,12 @@ const UpdateCar = () => {
     const features = form.features.value;
     const description = form.description.value;
     const location = form.location.value;
+
     const uploadedUrls = await Promise.all(
       uploadedImages.map((file) => uploadImage(file))
     );
+
+    const updatedImageUrls = [...imageUrls, ...uploadedUrls];
 
     const updateCar = {
       carModel,
@@ -78,31 +108,27 @@ const UpdateCar = () => {
       vehicleRegNumber,
       features,
       description,
-      images: [...imageUrls, ...uploadedUrls], 
+      images: updatedImageUrls,
       location,
       bookingCount: 0,
       dateAdded: new Date().toISOString(),
       bookingStatus: "pending",
     };
-    //send data to the server
-    
-      try {
-      // 1. make a post request
+
+    try {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/updateCars/${id}`,
         updateCar
-      )
-      // 2. Reset form
-      form.reset()
-      // 3. Show toast and navigate
-      toast.success('Data Updated Successfully!!!')
-      
+      );
+      form.reset();
+      setImageUrls(updatedImageUrls);
+      setUploadedImages([]);
+      toast.success("Data Updated Successfully!!!");
+      navigate('/myCar')
     } catch (err) {
-      console.log(err)
-      toast.error(err.message)
+      console.log(err);
+      toast.error(err.message);
     }
-    
-     
   };
 
   return (
@@ -144,7 +170,8 @@ const UpdateCar = () => {
           </label>
           <select
             name="availability"
-            defaultValue={car.availability}
+            value={availability}
+            onChange={handleAvailabilityChange}
             className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="Available">Available</option>
@@ -172,7 +199,8 @@ const UpdateCar = () => {
           </label>
           <select
             name="features"
-            defaultValue={car.features}
+            value={features}
+            onChange={handleFeaturesChange}
             className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="GPS">GPS</option>
@@ -200,7 +228,7 @@ const UpdateCar = () => {
             {...getRootProps()}
             className="border-2 border-dashed border-gray-300 rounded-lg p-6 bg-gray-50 flex flex-col items-center justify-center cursor-pointer hover:border-blue-500"
           >
-            <input  {...getInputProps()} />
+            <input {...getInputProps()} />
             <div className="text-center">
               {isDragActive ? (
                 <p className="text-gray-700">Drop the files here...</p>
@@ -216,32 +244,48 @@ const UpdateCar = () => {
               )}
             </div>
           </div>
-
           <div className="mt-4">
-            {uploadedImages.length > 0 && (
-              <div className="flex flex-wrap gap-4">
-                {uploadedImages.map((file, index) => (
-                  <div
-                    key={index}
-                    className="relative w-32 h-32 border rounded-lg overflow-hidden"
+            <div className="flex flex-wrap gap-4">
+              {imageUrls.map((url, index) => (
+                <div
+                  key={`image-url-${index}`}
+                  className="relative w-32 h-32 border rounded-lg overflow-hidden"
+                >
+                  <img
+                    src={url}
+                    alt="Uploaded"
+                    className="w-full h-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index, "url")}
+                    className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 rounded-full text-sm"
                   >
-                    <img
-                      src={URL.createObjectURL(file)}
-                      defaultValue={car.images[0]}
-                      alt="Preview"
-                      className="w-full h-full object-cover"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveImage(index)}
-                      className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 rounded-full text-sm"
-                    >
-                      ×
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+                    ×
+                  </button>
+                </div>
+              ))}
+
+              {uploadedImages.map((file, index) => (
+                <div
+                  key={`uploaded-image-${index}`}
+                  className="relative w-32 h-32 border rounded-lg overflow-hidden"
+                >
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(index, "file")}
+                    className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 rounded-full text-sm"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
