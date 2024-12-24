@@ -9,7 +9,7 @@ const AvailableCars = () => {
 
   useEffect(() => {
     const fetchCars = async () => {
-      const {data} = await axios.get(
+      const { data } = await axios.get(
         `${import.meta.env.VITE_API_URL}/cars?search=${search}`
       );
       setCars(data);
@@ -79,9 +79,17 @@ const AvailableCars = () => {
               <p className="text-sm text-gray-500">
                 Date Posted: {new Date(car.dateAdded).toLocaleDateString()}
               </p>
-              <div className="mt-2 text-green-500 text-sm font-medium">
+              <div className="mt-2  text-sm font-medium">
                 Availability:{" "}
-                {car.availability === "available" ? "Available" : "Unavailable"}
+                <span
+                  className={
+                    car.availability === "Available"
+                      ? "text-green-600 font-bold"
+                      : "text-red-600 font-bold"
+                  }
+                >
+                  {car.availability}
+                </span>
               </div>
               <div className="mt-2 text-sm text-gray-600">{car.location}</div>
               <button className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">

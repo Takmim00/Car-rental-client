@@ -2,6 +2,8 @@ import axios from "axios";
 import { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { authContext } from "../provider/AuthProvider";
+import { toast } from 'react-hot-toast'
+
 
 const AddCar = () => {
   const { user } = useContext(authContext);
@@ -67,18 +69,23 @@ const AddCar = () => {
       images: uploadedUrls,
       location,
       bookingCount: 0,
-      name: user?.displayName, 
-      email: user?.email, 
-      dateAdded: new Date().toISOString(), 
-      bookingStatus: "pending", 
+      name: user?.displayName,
+      email: user?.email,
+      dateAdded: new Date().toISOString(),
+      bookingStatus: "pending",
     };
-    console.log(addCar);
+    try{
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_API_URL}/add-car`,
+        addCar
+      );
+      form.reset()
+      toast.success('Data Added Successfully!!!')
+    }catch(err){
+      toast.error(err.message)
+    }
 
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/add-car`,
-      addCar
-    );
-    console.log(data);
+    
   };
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">

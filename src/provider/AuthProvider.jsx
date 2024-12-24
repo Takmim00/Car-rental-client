@@ -15,7 +15,7 @@ export const authContext = createContext();
 
 
 
-const AuthProvider = ({ routes }) => {
+const AuthProvider = ({ children }) => {
   const googleProvider = new GoogleAuthProvider();
 
   const [user, setUser] = useState(
@@ -75,7 +75,7 @@ const AuthProvider = ({ routes }) => {
 
   return (
     <div>
-      <authContext.Provider value={authInfo}>{routes}</authContext.Provider>
+      <authContext.Provider value={authInfo}>{children}</authContext.Provider>
     </div>
   );
 };

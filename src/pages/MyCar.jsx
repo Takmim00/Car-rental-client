@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { authContext } from "../provider/AuthProvider";
 
 const MyCar = () => {
@@ -9,6 +10,35 @@ const MyCar = () => {
       .then((res) => res.json())
       .then((data) => setCars(data));
   }, [user.email]);
+  const handleDelete = (_id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${import.meta.env.VITE_API_URL}/cars/${_id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your Coffee has been deleted.",
+                icon: "success",
+              });
+              const remaining = cars.filter((car) => car._id !== _id);
+              setCars(remaining);
+            }
+          });
+      }
+    });
+  };
   return (
     <div className="bg-gray-100 p-6">
       <div className="container mx-auto">
@@ -27,7 +57,6 @@ const MyCar = () => {
                 </th>
                 <th className="px-4 py-2 border border-gray-300">Date Added</th>
                 <th className="px-4 py-2 border border-gray-300"></th>
-                
               </tr>
             </thead>
             <tbody>
@@ -37,14 +66,12 @@ const MyCar = () => {
                     <img
                       src={car.images[0]}
                       alt="Car"
-                      className="w-24 h-16 object-cover mx-auto"
+                      className="w-40 h-20 object-cover mx-auto"
                     />
                   </td>
+                  <td className="px-4 py-2 text-center">{car.carModel}</td>
                   <td className="px-4 py-2 text-center">
-                    {car.carModel}
-                  </td>
-                  <td className="px-4 py-2 text-center">
-                    {car.dailyRentalPrice}
+                    ${car.dailyRentalPrice}/Day
                   </td>
                   <td className="px-4 py-2 text-center">
                     <span
@@ -60,20 +87,17 @@ const MyCar = () => {
                   <td className="px-4 py-2 text-center">
                     {new Date(car.dateAdded).toLocaleDateString()}
                   </td>
-                  <td className="px-4 py-2">
-                <button
-                  
-                  className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
-                >
-                  Update
-                </button>
-                <button
-                 
-                  className="bg-red-500 text-white px-2 py-1 rounded"
-                >
-                  Delete
-                </button>
-              </td>
+                  <td className="px-4 py-2 text-center">
+                    <button className="bg-blue-500 text-white px-3 py-2 rounded mr-4">
+                      Update
+                    </button>
+                    <button
+                      onClick={() => handleDelete(car._id)}
+                      className="bg-red-500 text-white px-3 py-2 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
