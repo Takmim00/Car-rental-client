@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { authContext } from "../provider/AuthProvider";
 
 const MyCar = () => {
   const { user } = useContext(authContext);
   const [cars, setCars] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL}/myCars?email=${user.email}`)
       .then((res) => res.json())
@@ -38,6 +40,9 @@ const MyCar = () => {
           });
       }
     });
+  };
+  const handleUpdate = (id) => {
+    navigate(`/updateCar/${id}`);
   };
   return (
     <div className="bg-gray-100 p-6">
@@ -88,9 +93,13 @@ const MyCar = () => {
                     {new Date(car.dateAdded).toLocaleDateString()}
                   </td>
                   <td className="px-4 py-2 text-center">
-                    <button className="bg-blue-500 text-white px-3 py-2 rounded mr-4">
+                    <button
+                      onClick={() => handleUpdate(car._id)}
+                      className="bg-blue-500 text-white px-3 py-2 rounded mr-4"
+                    >
                       Update
                     </button>
+
                     <button
                       onClick={() => handleDelete(car._id)}
                       className="bg-red-500 text-white px-3 py-2 rounded"
