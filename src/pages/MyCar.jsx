@@ -9,10 +9,9 @@ const MyCar = () => {
   const [sortBy, setSortBy] = useState("");
   const [order, setOrder] = useState("asc");
   const navigate = useNavigate();
+
   const fetchCars = () => {
-    const url = `${import.meta.env.VITE_API_URL}/myCars?email=${
-      user.email
-    }&sortBy=${sortBy}&order=${order}`;
+    const url = `${import.meta.env.VITE_API_URL}/myCars?email=${user.email}&sortBy=${sortBy}&order=${order}`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => setCars(data));
@@ -22,6 +21,7 @@ const MyCar = () => {
     fetchCars();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.email, sortBy, order]);
+
   const handleDelete = (_id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -41,7 +41,7 @@ const MyCar = () => {
             if (data.deletedCount > 0) {
               Swal.fire({
                 title: "Deleted!",
-                text: "Your Coffee has been deleted.",
+                text: "Your car has been deleted successfully.",
                 icon: "success",
               });
               const remaining = cars.filter((car) => car._id !== _id);
@@ -51,11 +51,13 @@ const MyCar = () => {
       }
     });
   };
+
   const handleUpdate = (id) => {
     navigate(`/updateCar/${id}`);
   };
+
   return (
-    <div className=" p-6">
+    <div className="p-6">
       <div className="container mx-auto">
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold mb-6">Manage Your Cars</h1>
@@ -64,13 +66,16 @@ const MyCar = () => {
             <div>
               <select
                 className="border p-2 rounded"
+                defaultValue=""
                 onChange={(e) => {
                   const [field, orderValue] = e.target.value.split("-");
                   setSortBy(field);
                   setOrder(orderValue);
                 }}
               >
-                <option value="">Sort by Date</option>
+                <option value="" disabled>
+                  Sort by Date
+                </option>
                 <option value="dateAdded-desc">Newest Date</option>
                 <option value="dateAdded-asc">Oldest Date</option>
               </select>
@@ -80,13 +85,16 @@ const MyCar = () => {
             <div>
               <select
                 className="border p-2 rounded"
+                defaultValue=""
                 onChange={(e) => {
                   const [field, orderValue] = e.target.value.split("-");
                   setSortBy(field);
                   setOrder(orderValue);
                 }}
               >
-                <option value="">Sort by Price</option>
+                <option value="" disabled>
+                  Sort by Price
+                </option>
                 <option value="dailyRentalPrice-asc">Lowest Price</option>
                 <option value="dailyRentalPrice-desc">Highest Price</option>
               </select>
@@ -94,7 +102,8 @@ const MyCar = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full  border">
+          
+          <table className="min-w-full border">
             <thead className="bg-gray-200">
               <tr>
                 <th className="px-4 py-2 border border-gray-300">Car Image</th>
@@ -102,9 +111,7 @@ const MyCar = () => {
                 <th className="px-4 py-2 border border-gray-300">
                   Daily Rental Price
                 </th>
-                <th className="px-4 py-2 border border-gray-300">
-                  Availability
-                </th>
+                <th className="px-4 py-2 border border-gray-300">Availability</th>
                 <th className="px-4 py-2 border border-gray-300">Date Added</th>
                 <th className="px-4 py-2 border border-gray-300">Action</th>
               </tr>
@@ -144,7 +151,6 @@ const MyCar = () => {
                     >
                       Update
                     </button>
-
                     <button
                       onClick={() => handleDelete(car._id)}
                       className="bg-red-500 text-white px-3 py-2 rounded"
@@ -156,6 +162,14 @@ const MyCar = () => {
               ))}
             </tbody>
           </table>
+          {cars.length === 0 && (
+            <p className="text-center text-gray-500 mt-6">
+              No cars found.{" "}
+              <a href="/addCar" className="text-blue-500 underline">
+                Add a Car
+              </a>
+            </p>
+          )}
         </div>
       </div>
     </div>
