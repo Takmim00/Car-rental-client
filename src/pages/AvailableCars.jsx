@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 
 const AvailableCars = () => {
   const [cars, setCars] = useState([]);
@@ -10,9 +11,10 @@ const AvailableCars = () => {
 
   useEffect(() => {
     const fetchCars = async () => {
-      console.log("Fetching cars with sortBy:", sortBy, "and order:", order);
       const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/cars?search=${search}&sortBy=${sortBy}&order=${order}`
+        `${
+          import.meta.env.VITE_API_URL
+        }/cars?search=${search}&sortBy=${sortBy}&order=${order}`
       );
       setCars(data);
     };
@@ -48,7 +50,6 @@ const AvailableCars = () => {
           </button>
         </div>
 
-        
         <div className="mb-4 flex gap-4 items-center">
           {/* Date Sorting */}
           <div>
@@ -135,9 +136,11 @@ const AvailableCars = () => {
                 </span>
               </div>
               <div className="mt-2 text-sm text-gray-600">{car.location}</div>
-              <button className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">
-                Book Now
-              </button>
+              <NavLink to={`/carDetails/${car._id}`}>
+                <button className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">
+                  Book Now
+                </button>
+              </NavLink>
             </div>
           </div>
         ))}

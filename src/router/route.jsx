@@ -8,6 +8,8 @@ import AddCar from "../pages/AddCar";
 import MyCar from "../pages/MyCar";
 import MyBooking from "../pages/MyBooking";
 import UpdateCar from "../pages/UpdateCar";
+import CarDetails from "../pages/CarDetails";
+
 
 const router = createBrowserRouter([
   {
@@ -38,6 +40,10 @@ const router = createBrowserRouter([
         path:'/updateCar/:id',
         element:<UpdateCar></UpdateCar>,
         
+      },
+      {
+        path: '/carDetails/:id',
+        element: <CarDetails></CarDetails>
       },
       {
         path: "/login",
