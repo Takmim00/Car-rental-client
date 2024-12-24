@@ -1,11 +1,87 @@
-import React from 'react';
+import { useContext, useEffect, useState } from "react";
+import { authContext } from "../provider/AuthProvider";
 
 const MyCar = () => {
-    return (
-        <div>
-            
+  const { user } = useContext(authContext);
+  const [cars, setCars] = useState([]);
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/myCars?email=${user.email}`)
+      .then((res) => res.json())
+      .then((data) => setCars(data));
+  }, [user.email]);
+  return (
+    <div className="bg-gray-100 p-6">
+      <div className="container mx-auto">
+        <h1 className="text-2xl font-bold mb-6">Manage Your Cars</h1>
+        <div className="overflow-x-auto">
+          <table className="min-w-full  border">
+            <thead className="bg-gray-200">
+              <tr>
+                <th className="px-4 py-2 border border-gray-300">Car Image</th>
+                <th className="px-4 py-2 border border-gray-300">Car Model</th>
+                <th className="px-4 py-2 border border-gray-300">
+                  Daily Rental Price
+                </th>
+                <th className="px-4 py-2 border border-gray-300">
+                  Availability
+                </th>
+                <th className="px-4 py-2 border border-gray-300">Date Added</th>
+                <th className="px-4 py-2 border border-gray-300"></th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              {cars.map((car, index) => (
+                <tr key={index} className="bg-white hover:bg-gray-100">
+                  <td className="px-4 py-2 text-center">
+                    <img
+                      src={car.images[0]}
+                      alt="Car"
+                      className="w-24 h-16 object-cover mx-auto"
+                    />
+                  </td>
+                  <td className="px-4 py-2 text-center">
+                    {car.carModel}
+                  </td>
+                  <td className="px-4 py-2 text-center">
+                    {car.dailyRentalPrice}
+                  </td>
+                  <td className="px-4 py-2 text-center">
+                    <span
+                      className={
+                        car.availability === "Available"
+                          ? "text-green-600 font-bold"
+                          : "text-red-600 font-bold"
+                      }
+                    >
+                      {car.availability}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2 text-center">
+                    {new Date(car.dateAdded).toLocaleDateString()}
+                  </td>
+                  <td className="px-4 py-2">
+                <button
+                  
+                  className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
+                >
+                  Update
+                </button>
+                <button
+                 
+                  className="bg-red-500 text-white px-2 py-1 rounded"
+                >
+                  Delete
+                </button>
+              </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default MyCar;

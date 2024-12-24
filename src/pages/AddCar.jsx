@@ -67,7 +67,8 @@ const AddCar = () => {
       images: uploadedUrls,
       location,
       bookingCount: 0,
-      user: user?.displayName, 
+      name: user?.displayName, 
+      email: user?.email, 
       dateAdded: new Date().toISOString(), 
       bookingStatus: "pending", 
     };
@@ -117,8 +118,8 @@ const AddCar = () => {
             name="availability"
             className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="available">Available</option>
-            <option value="unavailable">Unavailable</option>
+            <option value="Available">Available</option>
+            <option value="Unavailable">Unavailable</option>
           </select>
         </div>
 
