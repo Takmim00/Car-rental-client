@@ -184,9 +184,7 @@ const AddCar = () => {
                   <p className="text-gray-500">
                     Drag 'n' drop some files here, or click to select files
                   </p>
-                  <p className="text-sm text-gray-400">
-                    Supported files: JPG, PNG, GIF
-                  </p>
+                  
                 </>
               )}
             </div>
