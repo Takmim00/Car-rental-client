@@ -1,12 +1,15 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { authContext } from "../provider/AuthProvider";
 import Swal from "sweetalert2";
-
+import { authContext } from "../provider/AuthProvider";
+import DatePicker from "react-datepicker";
+import { format } from "date-fns";
 
 const MyBooking = () => {
   const { user } = useContext(authContext);
   const [cars, setCars] = useState([]);
+
+
   useEffect(() => {
     fetchAllBooks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -17,35 +20,43 @@ const MyBooking = () => {
     );
     setCars(data);
   };
-   const handleCancel = (_id) => {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You want to cancel this booking?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, Cancel it!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          fetch(`${import.meta.env.VITE_API_URL}/books/${_id}`, {
-            method: "DELETE",
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.deletedCount > 0) {
-                Swal.fire({
-                  title: "Deleted!",
-                  text: "Your booking has been canceled successfully.",
-                  icon: "success",
-                });
-                const remaining = cars.filter((car) => car._id !== _id);
-                setCars(remaining);
-              }
-            });
-        }
-      });
-    };
+  const handleCancel = (_id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to cancel this booking?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Cancel it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${import.meta.env.VITE_API_URL}/books/${_id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.modifiedCount > 0) {
+              Swal.fire({
+                title: "Canceled!",
+                text: "Your booking has been canceled successfully.",
+                icon: "success",
+              });
+
+              const updatedCars = cars.map((car) =>
+                car._id === _id ? { ...car, status: "Canceled" } : car
+              );
+              setCars(updatedCars);
+            }
+          });
+      }
+    });
+  };
+  
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Your Bookings</h1>
@@ -72,38 +83,45 @@ const MyBooking = () => {
                   />
                 </td>
                 <td className=" px-4 py-2 text-center">{book.carModel}</td>
-                <td className="px-4 py-2 text-center"> {book.bookingDate}</td>
+                <td className="px-4 py-2 text-center">{book.startDate}</td>
                 <td className=" px-4 py-2 text-center">
                   ${book.dailyRentalPrice}
                 </td>
                 <td className=" px-4 py-2 text-center">
-                <div
-          className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${
-            book.status === 'Pending' && ' bg-yellow-100/60 text-yellow-500'
-          } ${book.status === 'In Progress' && ' bg-blue-100/60 text-blue-500'} ${
-            book.status === 'Completed' && ' bg-green-100/60 text-green-500'
-          } ${book.status === 'Rejected' && ' bg-red-100/60 text-red-500'}`}
-        >
-          <span
-            className={`h-1.5 w-1.5 rounded-full ${
-              book.status === 'Pending' && 'bg-yellow-500'
-            } ${book.status === 'In Progress' && 'bg-blue-500'} ${
-              book.status === 'Completed' && 'bg-green-500'
-            } ${book.status === 'Rejected' && 'bg-red-500'} `}
-          ></span>
-          <h2 className='text-sm font-normal '>{book.status}</h2>
-        </div>
+                  <div
+                    className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${
+                      book.status === "Pending" &&
+                      " bg-yellow-100/60 text-yellow-500"
+                    } ${
+                      book.status === "In Progress" &&
+                      " bg-blue-100/60 text-blue-500"
+                    } ${
+                      book.status === "Completed" &&
+                      " bg-green-100/60 text-green-500"
+                    } ${
+                      book.status === "Canceled" &&
+                      " bg-red-100/60 text-red-500"
+                    }`}
+                  >
+                    <span
+                      className={`h-1.5 w-1.5 rounded-full ${
+                        book.status === "Pending" && "bg-yellow-500"
+                      } ${book.status === "In Progress" && "bg-blue-500"} ${
+                        book.status === "Completed" && "bg-green-500"
+                      } ${book.status === "Canceled" && "bg-red-500"} `}
+                    ></span>
+                    <h2 className="text-sm font-normal ">{book.status}</h2>
+                  </div>
                 </td>
                 <td className=" px-4 py-2 text-center">
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2 hover:bg-blue-600"
-                    // onClick={() => onModify(booking.id)}
                   >
                     Modify
                   </button>
                   <button
                     className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
-                    onClick={() =>handleCancel(book._id)}
+                    onClick={() => handleCancel(book._id)}
                   >
                     Cancel
                   </button>
@@ -113,6 +131,7 @@ const MyBooking = () => {
           </tbody>
         </table>
       </div>
+      
     </div>
   );
 };
