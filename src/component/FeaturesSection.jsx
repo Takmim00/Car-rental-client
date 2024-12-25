@@ -1,7 +1,7 @@
 const FeaturesSection = () => {
   return (
     <div className="bg-white py-16  flex md:flex-row flex-col w-11/12 mx-auto">
-      {/* Heading Section */}
+
       <div className="text-start pl-5">
         <span className="text-sm font-semibold text-red-500 bg-red-100 px-3 py-1 rounded-full uppercase">
           We Are The Best
@@ -11,9 +11,9 @@ const FeaturesSection = () => {
         </h1>
       </div>
 
-      {/* Features */}
-      <div className="flex flex-col md:flex-row justify-center gap-8">
-        {/* Feature 1 */}
+
+      <div  className="flex flex-col md:flex-row justify-center gap-8">
+
         <div className="bg-white shadow-md rounded-xl p-6 text-center w-full md:w-1/3">
           <div className="flex justify-center items-center w-16 h-16 mx-auto mb-4 border border-gray-300 rounded-full">
             <svg
@@ -38,7 +38,6 @@ const FeaturesSection = () => {
           </p>
         </div>
 
-        {/* Feature 2 */}
         <div className="bg-white shadow-md rounded-xl p-6 text-center w-full md:w-1/3">
           <div className="flex justify-center items-center w-16 h-16 mx-auto mb-4 border border-gray-300 rounded-full">
             <svg

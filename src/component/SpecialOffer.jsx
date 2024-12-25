@@ -1,6 +1,10 @@
-import React from "react";
-
+import Aos from 'aos';
+import 'aos/dist/aos.css'
+import { useEffect } from 'react';
 const SpecialOffer = () => {
+    useEffect(()=>{
+        Aos.init();
+    },[])
   return (
     <section className="py-8  w-11/12 mx-auto">
       <div className="container mx-auto text-center">
@@ -9,7 +13,7 @@ const SpecialOffer = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Offer 1 */}
-          <div className="relative bg-blue-500 text-white rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
+          <div data-aos="fade-right" className="relative bg-blue-500 text-white rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
             <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
             <div className="relative p-6">
               <h3 className="text-xl font-semibold">
@@ -23,7 +27,12 @@ const SpecialOffer = () => {
           </div>
 
           {/* Offer 2 */}
-          <div className="relative bg-red-500 text-white rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
+          <div
+            data-aos="flip-left"
+            data-aos-easing="ease-out-cubic"
+            data-aos-duration="2000"
+            className="relative bg-red-500 text-white rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300"
+          >
             <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
             <div className="relative p-6">
               <h3 className="text-xl font-semibold">
@@ -39,7 +48,7 @@ const SpecialOffer = () => {
           </div>
 
           {/* Offer 3 */}
-          <div className="relative bg-green-500 text-white rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
+          <div data-aos="fade-right" className="relative bg-green-500 text-white rounded-lg overflow-hidden shadow-lg transform hover:scale-105 transition duration-300">
             <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50"></div>
             <div className="relative p-6 ">
               <h3 className="text-xl font-semibold">

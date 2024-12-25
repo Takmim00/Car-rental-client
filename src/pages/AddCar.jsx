@@ -3,9 +3,11 @@ import { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { authContext } from "../provider/AuthProvider";
 import { toast } from 'react-hot-toast'
+import { useNavigate } from "react-router-dom";
 
 
 const AddCar = () => {
+  const navigate = useNavigate()
   const { user } = useContext(authContext);
   const [uploadedImages, setUploadedImages] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
@@ -81,6 +83,7 @@ const AddCar = () => {
       );
       form.reset()
       toast.success('Data Added Successfully!!!')
+      navigate('/myCar')
     }catch(err){
       toast.error(err.message)
     }
