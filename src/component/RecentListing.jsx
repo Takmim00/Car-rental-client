@@ -39,12 +39,22 @@ const RecentListing = () => {
               <p className="text-sm text-gray-500">
                 Date Posted :{new Date(car.dateAdded).toLocaleDateString()}
               </p>
-              <div className="mt-2 text-green-500 text-sm font-medium">
+              <div className="mt-2 text-sm font-medium">
                 Availability :
-                {car.availability === "available" ? "Available" : "Unavailable"}
+                <span
+                  className={
+                    car.availability === "Available"
+                      ? "text-green-600 font-bold"
+                      : "text-red-600 font-bold"
+                  }
+                >
+                  {car.availability}
+                </span>
               </div>
-              <div className="mt-2 text-sm text-gray-600">{car.location}</div>
-              
+              <div className="mt-2 text-sm text-gray-600">
+                Location : {car.location}
+              </div>
+              <p>Booking: {car.bookingCount}</p>
             </div>
           </div>
         ))}
