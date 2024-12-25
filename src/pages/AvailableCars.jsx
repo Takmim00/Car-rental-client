@@ -135,7 +135,7 @@ const AvailableCars = () => {
                   {car.availability}
                 </span>
               </div>
-              <div className="mt-2 text-sm text-gray-600">{car.location}</div>
+              <div className="mt-2 text-sm text-gray-600">Location:{car.location}</div>
               <NavLink to={`/carDetails/${car._id}`}>
                 <button className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">
                   Book Now

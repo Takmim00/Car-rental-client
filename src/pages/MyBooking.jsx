@@ -65,57 +65,53 @@ const MyBooking = () => {
     setSelectedBooking(booking);
     setIsModalOpen(true);
   };
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     if (!selectedBooking || !startDate || !endDate) return;
+
     const updatedData = {
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
       status: "Confirmed",
     };
-  
-    axios
-      .patch(
+
+    try {
+      const response = await axios.patch(
         `${import.meta.env.VITE_API_URL}/books/dates/${selectedBooking._id}`,
         updatedData,
         {
-          method: 'PATCH',
           headers: {
             "Content-Type": "application/json",
           },
         }
-      )
-      .then((response) => {
-        if (response.data.success) {
-          Swal.fire({
-            title: "Updated!",
-            text: "Booking dates updated successfully, and status confirmed.",
-            icon: "success",
-          });
-  
-          const updatedCars = cars.map((car) =>
-            car._id === selectedBooking._id
-              ? {
-                  ...car,
-                  startDate: startDate.toISOString(),
-                  endDate: endDate.toISOString(),
-                  status: "Confirmed", 
-                }
-              : car
-          );
-          setCars(updatedCars);
-          setIsModalOpen(false);
-        }
-      })
-      .catch((error) => {
+      );
+
+      if (response.data.success) {
         Swal.fire({
-          title: "Error!",
-          text: "Failed to update booking dates.",
-          icon: "error",
+          title: "Updated!",
+          text: "Booking dates updated successfully, and status confirmed.",
+          icon: "success",
         });
-        console.error(error);
+
+       
+        setCars((prevCars) =>
+          prevCars.map((car) =>
+            car._id === selectedBooking._id
+              ? { ...car, ...updatedData } 
+              : car
+          )
+        );
+
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to update booking dates.",
+        icon: "error",
       });
+      console.error(error);
+    }
   };
-  
 
   return (
     <div className="container mx-auto p-4">
@@ -227,7 +223,7 @@ const MyBooking = () => {
                 Cancel
               </button>
               <button
-                onClick={()=>handleSaveChanges(selectedBooking._id)}
+                onClick={handleSaveChanges}
                 className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
               >
                 Confirmed
