@@ -1,25 +1,30 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import { authContext } from "../provider/AuthProvider";
-import DatePicker from "react-datepicker";
-import { format } from "date-fns";
 
 const MyBooking = () => {
   const { user } = useContext(authContext);
   const [cars, setCars] = useState([]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   useEffect(() => {
     fetchAllBooks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
+
   const fetchAllBooks = async () => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_API_URL}/books/${user?.email}`
     );
     setCars(data);
   };
+
   const handleCancel = (_id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -55,7 +60,59 @@ const MyBooking = () => {
       }
     });
   };
-  
+
+  const openModifyModal = (booking) => {
+    if (!booking) return;
+    setSelectedBooking(booking);
+    setIsModalOpen(true);
+  };
+  const handleSaveChanges = () => {
+    if (!selectedBooking || !startDate || !endDate) return;
+
+    axios
+      .patch(
+        `${import.meta.env.VITE_API_URL}/books/dates/${selectedBooking._id}`,
+        {
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        if (response.data.success) {
+          Swal.fire({
+            title: "Updated!",
+            text: "Booking dates updated successfully.",
+            icon: "success",
+          });
+
+          const updatedCars = cars.map((car) =>
+            car._id === selectedBooking._id
+              ? {
+                  ...car,
+                  startDate: startDate.toISOString(),
+                  endDate: endDate.toISOString(),
+                }
+              : car
+          );
+          setCars(updatedCars);
+
+          setIsModalOpen(false);
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: "Error!",
+          text: "Failed to update booking dates.",
+          icon: "error",
+        });
+        console.error(error);
+      });
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -64,27 +121,32 @@ const MyBooking = () => {
         <table className="table-auto w-full border-collapse border border-gray-200">
           <thead>
             <tr className="bg-gray-100 rounded-md">
-              <th className=" px-4 py-2">Car Image</th>
-              <th className=" px-4 py-2">Car Model</th>
-              <th className=" px-4 py-2">Booking Date</th>
-              <th className=" px-4 py-2">Total Price</th>
-              <th className=" px-4 py-2">Booking Status</th>
-              <th className=" px-4 py-2">Actions</th>
+              <th className="px-4 py-2">Car Image</th>
+              <th className="px-4 py-2">Car Model</th>
+              <th className="px-4 py-2">Booking Date</th>
+              <th className="px-4 py-2">Total Price</th>
+              <th className="px-4 py-2">Booking Status</th>
+              <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {cars.map((book, i) => (
-              <tr key={i} className="">
-                <td className=" px-4 py-2 text-center">
+              <tr key={i}>
+                <td className="px-4 py-2 text-center">
                   <img
                     src={book.image}
                     alt={book.carModel}
                     className="w-16 h-16 object-cover rounded-md mx-auto"
                   />
                 </td>
-                <td className=" px-4 py-2 text-center">{book.carModel}</td>
-                <td className="px-4 py-2 text-center">{book.startDate}</td>
-                <td className=" px-4 py-2 text-center">
+                <td className="px-4 py-2 text-center">{book.carModel}</td>
+                <td className="px-4 py-2 text-center">{`${new Date(
+                  book.startDate
+                ).toLocaleDateString()} to ${new Date(
+                  book.endDate
+                ).toLocaleDateString()}`}</td>
+
+                <td className="px-4 py-2 text-center">
                   ${book.dailyRentalPrice}
                 </td>
                 <td className=" px-4 py-2 text-center">
@@ -113,11 +175,12 @@ const MyBooking = () => {
                     <h2 className="text-sm font-normal ">{book.status}</h2>
                   </div>
                 </td>
-                <td className=" px-4 py-2 text-center">
+                <td className="px-4 py-2 text-center">
                   <button
                     className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2 hover:bg-blue-600"
+                    onClick={() => openModifyModal(book)}
                   >
-                    Modify
+                    Modify Date
                   </button>
                   <button
                     className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
@@ -131,7 +194,45 @@ const MyBooking = () => {
           </tbody>
         </table>
       </div>
-      
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg w-1/3">
+            <h2 className="text-xl font-bold mb-4">Modify Booking Date</h2>
+            <div className="mb-4">
+              <label className="block mb-2 font-medium">Start Date</label>
+              <DatePicker
+                className="border p-2 rounded-md"
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block mb-2 font-medium">End Date</label>
+              <DatePicker
+                className="border p-2 rounded-md"
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                className="bg-gray-500 text-white px-3 py-1 rounded-md hover:bg-gray-600"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveChanges}
+                className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
+              >
+                Confirmed
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

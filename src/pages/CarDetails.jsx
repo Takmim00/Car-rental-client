@@ -25,7 +25,7 @@ const CarDetails = () => {
     e.preventDefault();
 
     if (user?.email === car?.email) return toast.error("Action not permitted!");
-    const bookingDate = format(new Date().toLocaleDateString(), 'dd-MM-yyyy HH:mm');
+    const bookingDate = format(new Date().toLocaleDateString(), 'dd-MM-yyyy ');
     const bookingDetails = {
       carId: car._id,
       userEmail: user.email,
