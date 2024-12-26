@@ -27,7 +27,7 @@ const AddCar = () => {
     if (!file) return null;
     const imgData = new FormData();
     imgData.append("file", file);
-    console.log(file);
+
     imgData.append("upload_preset", "Car_rental");
     imgData.append("cloud_name", "dlogratts");
     const res = await fetch(
@@ -37,11 +37,11 @@ const AddCar = () => {
         body: imgData,
       }
     );
-    console.log(res);
+
     const uploadedImageData = await res.json();
     const uploadedImageUrl = uploadedImageData.url;
 
-    console.log(uploadedImageUrl);
+
     return uploadedImageUrl;
   };
 

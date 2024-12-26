@@ -12,10 +12,10 @@ import { useContext, useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Swal from "sweetalert2";
-import { authContext } from "../provider/AuthProvider";
 import { CiCalendarDate } from "react-icons/ci";
 import { LuTrash2 } from "react-icons/lu";
+import Swal from "sweetalert2";
+import { authContext } from "../provider/AuthProvider";
 
 ChartJS.register(
   CategoryScale,
@@ -108,7 +108,7 @@ const MyBooking = () => {
         }
       );
 
-      if (response.data.modifiedCount>0) {
+      if (response.data.modifiedCount > 0) {
         setCars((prevCars) =>
           prevCars.map((car) =>
             car._id === selectedBooking._id ? { ...car, ...updatedData } : car
@@ -187,11 +187,23 @@ const MyBooking = () => {
                   />
                 </td>
                 <td className="px-4 py-2 text-center">{book.carModel}</td>
-                <td className="px-4 py-2 text-center">{`${new Date(
-                  book.startDate
-                ).toLocaleDateString()} to ${new Date(
-                  book.endDate
-                ).toLocaleDateString()}`}</td>
+                <td className="px-4 py-2 text-center">
+                  {`${new Date(book.startDate).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })} ${new Date(book.startDate).toLocaleTimeString("en-GB", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })} to ${new Date(book.endDate).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })} ${new Date(book.endDate).toLocaleTimeString("en-GB", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}`}
+                </td>
                 <td className="px-4 py-2 text-center">
                   ${book.dailyRentalPrice}
                 </td>
@@ -210,9 +222,9 @@ const MyBooking = () => {
                     <span
                       className={`h-1.5 w-1.5 rounded-full ${
                         book.status === "Pending" && "bg-yellow-500"
-                      } ${book.status === "In Progress" && "bg-blue-500"} ${
-                        book.status === "Confirmed" && "bg-green-500"
-                      } ${book.status === "Canceled" && "bg-red-500"}`}
+                      }${book.status === "Confirmed" && "bg-green-500"} ${
+                        book.status === "Canceled" && "bg-red-500"
+                      }`}
                     ></span>
                     <h2 className="text-sm font-normal">{book.status}</h2>
                   </div>
@@ -222,13 +234,13 @@ const MyBooking = () => {
                     className="bg-blue-500 flex items-center text-white px-2 py-1 rounded-md mr-2 hover:bg-blue-600"
                     onClick={() => openModifyModal(book)}
                   >
-                    Modify <CiCalendarDate className="text-xl font-bold"/>
+                    Modify <CiCalendarDate className="text-xl font-bold" />
                   </button>
                   <button
                     className="bg-red-500 flex items-center text-white px-3 py-1 rounded-md hover:bg-red-600"
                     onClick={() => handleCancel(book._id)}
                   >
-                    Cancel <LuTrash2/>
+                    Cancel <LuTrash2 />
                   </button>
                 </td>
               </tr>

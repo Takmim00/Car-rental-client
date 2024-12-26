@@ -34,13 +34,21 @@ const RecentListing = () => {
             />
 
             <div className="mt-4">
-              <h3 className="text-lg font-bold">Model :{car.carModel}</h3>
-              <p>Daily Price :${car.dailyRentalPrice}/Day</p>
-              <p className="text-sm text-gray-500">
-                Date Posted :{new Date(car.dateAdded).toLocaleDateString()}
+              <h3 className="text-lg font-bold">{car.carModel}</h3>
+              <p>
+                <span className="text-sm font-medium">Daily Price: </span>
+                <span className="text-sm text-gray-500">
+                  ${car.dailyRentalPrice}/Day
+                </span>
               </p>
-              <div className="mt-2 text-sm font-medium">
-                Availability :
+              <p>
+                <span className="text-sm font-medium">Date Posted:</span>
+                <span className="text-sm text-gray-500">
+                  {new Date(car.dateAdded).toLocaleDateString()}
+                </span>
+              </p>
+              <div>
+                <span className="text-sm font-medium">Availability: </span>
                 <span
                   className={
                     car.availability === "Available"
@@ -51,10 +59,16 @@ const RecentListing = () => {
                   {car.availability}
                 </span>
               </div>
-              <div className="mt-2 text-sm text-gray-600">
-                Location : {car.location}
+              <div>
+                <span className="text-sm font-medium">Location :</span>{" "}
+                <span className="text-sm text-gray-500">{car.location}</span>
               </div>
-              <p className="mt-2 text-sm text-gray-600">Booking : {car.bookingCount}</p>
+              <p>
+                <span className="text-sm font-medium">Booking :</span>{" "}
+                <span className="text-sm text-gray-500">
+                  {car.bookingCount}
+                </span>
+              </p>
             </div>
           </div>
         ))}

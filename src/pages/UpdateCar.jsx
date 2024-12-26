@@ -35,7 +35,7 @@ const UpdateCar = () => {
     if (!file) return null;
     const imgData = new FormData();
     imgData.append("file", file);
-    console.log(file);
+
     imgData.append("upload_preset", "Car_rental");
     imgData.append("cloud_name", "dlogratts");
     const res = await fetch(
@@ -61,7 +61,7 @@ const UpdateCar = () => {
     );
     setCar(data);
     setImageUrls(data.images || []);
-    console.log(data);
+
   };
 
   useEffect(() => {
@@ -126,7 +126,7 @@ const UpdateCar = () => {
       toast.success("Data Updated Successfully!!!");
       navigate('/myCar')
     } catch (err) {
-      console.log(err);
+
       toast.error(err.message);
     }
   };

@@ -1,3 +1,5 @@
+import { FaFacebook, FaTwitter } from "react-icons/fa";
+import { RiInstagramFill } from "react-icons/ri";
 const Footer = () => {
   return (
     <footer className=" text-gray-800 py-10 w-11/12 mx-auto">
@@ -94,14 +96,14 @@ const Footer = () => {
             All Rights Reserved
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
-            <a href="#" className="text-gray-600 hover:text-red-600">
-              <i className="fab fa-facebook-f"></i>
+            <a href="#" className="text-gray-600 hover:text-red-600 text-2xl">
+              <FaFacebook />
             </a>
-            <a href="#" className="text-gray-600 hover:text-red-600">
-              <i className="fab fa-twitter"></i>
+            <a href="#" className="text-gray-600 hover:text-red-600 text-2xl">
+              <FaTwitter />
             </a>
-            <a href="#" className="text-gray-600 hover:text-red-600">
-              <i className="fab fa-linkedin-in"></i>
+            <a href="#" className="text-gray-600 hover:text-red-600 text-2xl">
+              <RiInstagramFill />
             </a>
           </div>
         </div>
