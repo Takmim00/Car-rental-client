@@ -25,15 +25,15 @@ const AvailableCars = () => {
     <div className="container py-8 w-11/12 mx-auto">
       <h2 className="text-2xl font-bold mb-6">Available Cars</h2>
 
-      <div className="flex items-center justify-center gap-4 mb-6">
-        {/* Toggle View Button */}
+      <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
+
         <button
           onClick={() => setView(view === "grid" ? "list" : "grid")}
           className="ml-4 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
         >
           {view === "grid" ? "Switch to List View" : "Switch to Grid View"}
         </button>
-        {/* search */}
+
         <div className="flex p-1 overflow-hidden border rounded-lg    focus-within:ring focus-within:ring-opacity-40 focus-within:border-blue-400 focus-within:ring-blue-300">
           <input
             className="px-6 py-2 text-gray-700 placeholder-gray-500 bg-white outline-none focus:placeholder-transparent"
@@ -50,8 +50,7 @@ const AvailableCars = () => {
           </button>
         </div>
 
-        <div className="mb-4 flex gap-4 items-center">
-          {/* Date Sorting */}
+        <div className="mb-4 flex gap-4 mt-4 items-center">
           <div>
             <select
               className="border p-2 rounded"
@@ -70,7 +69,7 @@ const AvailableCars = () => {
             </select>
           </div>
 
-          {/* Price Sorting */}
+
           <div>
             <select
               className="border p-2 rounded"

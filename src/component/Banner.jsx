@@ -16,7 +16,7 @@ const Banner = () => {
           Fulfill your automotive fantasies without breaking the bank. Check our
           affordable car rentals for an opulent yet economical ride.
         </p>
-        <Link to="/available-cars">
+        <Link to="/availableCar">
           <button className="mt-6 btn btn-primary px-6 py-3 text-lg font-semibold shadow-md">
             View Available Cars
           </button>

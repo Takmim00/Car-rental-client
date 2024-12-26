@@ -1,22 +1,23 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { authContext } from "../provider/AuthProvider";
+import logo from '../assets/logo.png';
 
 const Navbar = () => {
   const { user, logout } = useContext(authContext);
 
   return (
     <div className="navbar bg-base-100 shadow-sm px-4">
-      {/* Logo and Branding */}
+
       <div className="flex-1">
         <Link to="/" className="flex gap-2 items-center">
-          <img className="w-auto h-7" alt="" />
-          <span className="font-bold text-xl">Car</span>
+          <img src={logo} alt="" className="h-8" />
+         
         </Link>
       </div>
       
 
-      {/* Mobile Dropdown for Small Screens */}
+
       <div className="dropdown dropdown-left md:hidden">
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
           <svg
@@ -76,7 +77,7 @@ const Navbar = () => {
       </div>
       
 
-      {/* Desktop Navigation for Larger Screens */}
+
       <div className="hidden md:flex md:items-center">
         <ul className="menu menu-horizontal items-center px-1">
           <li>
@@ -96,7 +97,7 @@ const Navbar = () => {
               <li>
                 <Link to="/myBooking">My Bookings</Link>
               </li>
-              {/* User Profile and Dropdown */}
+
               <div className="dropdown dropdown-end">
                 <div
                   tabIndex={0}

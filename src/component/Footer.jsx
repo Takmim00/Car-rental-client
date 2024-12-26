@@ -1,14 +1,15 @@
 import { FaFacebook, FaTwitter } from "react-icons/fa";
 import { RiInstagramFill } from "react-icons/ri";
+import logo from '../assets/logo.png';
 const Footer = () => {
   return (
     <footer className=" text-gray-800 py-10 w-11/12 mx-auto">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
           <div className="flex items-center mb-4">
-            <div className="text-red-600 text-2xl font-bold">Carola</div>
+            <div className="text-red-600 text-2xl font-bold"><img src={logo} alt="" className="h-8"/></div>
           </div>
-          <p>57 Heol Isaf Station Road, Cardiff, UK</p>
+          <p>57 Heol Isaf Station Road, Dhaka</p>
           <p className="mt-2">info@example.com</p>
           <p className="mt-2">029-2021-4012</p>
         </div>
