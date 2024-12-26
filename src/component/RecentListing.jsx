@@ -54,7 +54,7 @@ const RecentListing = () => {
               <div className="mt-2 text-sm text-gray-600">
                 Location : {car.location}
               </div>
-              <p>Booking: {car.bookingCount}</p>
+              <p className="mt-2 text-sm text-gray-600">Booking : {car.bookingCount}</p>
             </div>
           </div>
         ))}

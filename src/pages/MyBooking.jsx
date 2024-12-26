@@ -4,6 +4,18 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import { authContext } from "../provider/AuthProvider";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const MyBooking = () => {
   const { user } = useContext(authContext);
@@ -20,7 +32,8 @@ const MyBooking = () => {
 
   const fetchAllBooks = async () => {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/books/${user?.email}`, {withCredentials: true}
+      `${import.meta.env.VITE_API_URL}/books/${user?.email}`, 
+      { withCredentials: true }
     );
     setCars(data);
   };
@@ -65,6 +78,7 @@ const MyBooking = () => {
     setSelectedBooking(booking);
     setIsModalOpen(true);
   };
+
   const handleSaveChanges = async () => {
     if (!selectedBooking || !startDate || !endDate) return;
 
@@ -92,11 +106,10 @@ const MyBooking = () => {
           icon: "success",
         });
 
-       
         setCars((prevCars) =>
           prevCars.map((car) =>
             car._id === selectedBooking._id
-              ? { ...car, ...updatedData } 
+              ? { ...car, ...updatedData }
               : car
           )
         );
@@ -113,9 +126,40 @@ const MyBooking = () => {
     }
   };
 
+  // chart data
+  const chartData = {
+    labels: cars.map((car) => car.carModel),
+    datasets: [
+      {
+        label: "Daily Rental Price",
+        data: cars.map((car) => car.dailyRentalPrice),
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Car Daily Rental Prices",
+      },
+    },
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Your Bookings</h1>
+
+      
+
+      {/* Booking */}
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse border border-gray-200">
           <thead>
@@ -144,24 +188,23 @@ const MyBooking = () => {
                 ).toLocaleDateString()} to ${new Date(
                   book.endDate
                 ).toLocaleDateString()}`}</td>
-
                 <td className="px-4 py-2 text-center">
                   ${book.dailyRentalPrice}
                 </td>
-                <td className=" px-4 py-2 text-center">
+                <td className="px-4 py-2 text-center">
                   <div
                     className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${
                       book.status === "Pending" &&
-                      " bg-yellow-100/60 text-yellow-500"
+                      "bg-yellow-100/60 text-yellow-500"
                     } ${
                       book.status === "In Progress" &&
-                      " bg-blue-100/60 text-blue-500"
+                      "bg-blue-100/60 text-blue-500"
                     } ${
                       book.status === "Confirmed" &&
-                      " bg-green-100/60 text-green-500"
+                      "bg-green-100/60 text-green-500"
                     } ${
                       book.status === "Canceled" &&
-                      " bg-red-100/60 text-red-500"
+                      "bg-red-100/60 text-red-500"
                     }`}
                   >
                     <span
@@ -169,9 +212,9 @@ const MyBooking = () => {
                         book.status === "Pending" && "bg-yellow-500"
                       } ${book.status === "In Progress" && "bg-blue-500"} ${
                         book.status === "Confirmed" && "bg-green-500"
-                      } ${book.status === "Canceled" && "bg-red-500"} `}
+                      } ${book.status === "Canceled" && "bg-red-500"}`}
                     ></span>
-                    <h2 className="text-sm font-normal ">{book.status}</h2>
+                    <h2 className="text-sm font-normal">{book.status}</h2>
                   </div>
                 </td>
                 <td className="px-4 py-2 text-center">
@@ -192,6 +235,13 @@ const MyBooking = () => {
             ))}
           </tbody>
         </table>
+      </div>
+      {/* Chart Section */}
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Data Visualization</h2>
+        <div className="bg-white p-4 rounded-md shadow-md">
+          <Bar data={chartData} options={chartOptions} />
+        </div>
       </div>
 
       {/* Modal */}
@@ -226,7 +276,7 @@ const MyBooking = () => {
                 onClick={handleSaveChanges}
                 className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
               >
-                Confirmed
+                Confirm
               </button>
             </div>
           </div>
