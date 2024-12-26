@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -10,11 +11,14 @@ const MyCar = () => {
   const [order, setOrder] = useState("asc");
   const navigate = useNavigate();
 
-  const fetchCars = () => {
-    const url = `${import.meta.env.VITE_API_URL}/myCars?email=${user.email}&sortBy=${sortBy}&order=${order}`;
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => setCars(data));
+  const fetchCars = async () => {
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_API_URL}/myCars?email=${
+        user.email
+      }&sortBy=${sortBy}&order=${order}`, {withCredentials: true}
+    );
+
+    setCars(data);
   };
 
   useEffect(() => {
@@ -102,7 +106,6 @@ const MyCar = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-          
           <table className="min-w-full border">
             <thead className="bg-gray-200">
               <tr>
@@ -111,7 +114,9 @@ const MyCar = () => {
                 <th className="px-4 py-2 border border-gray-300">
                   Daily Rental Price
                 </th>
-                <th className="px-4 py-2 border border-gray-300">Availability</th>
+                <th className="px-4 py-2 border border-gray-300">
+                  Availability
+                </th>
                 <th className="px-4 py-2 border border-gray-300">Date Added</th>
                 <th className="px-4 py-2 border border-gray-300">Action</th>
               </tr>

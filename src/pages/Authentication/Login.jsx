@@ -30,6 +30,7 @@ const Login = () => {
   };
   const googleLogIngHandler = () => {
     handleGoogleLogin().then((res) => {
+       
       const redirectTo = location.state?.from || "/";
       navigate(redirectTo);
     });
