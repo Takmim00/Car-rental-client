@@ -1,21 +1,30 @@
 import axios from "axios";
+import {
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  Title,
+  Tooltip,
+} from "chart.js";
 import { useContext, useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 import { authContext } from "../provider/AuthProvider";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
+import { CiCalendarDate } from "react-icons/ci";
+import { LuTrash2 } from "react-icons/lu";
+
+ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
   Title,
   Tooltip,
-  Legend,
-} from "chart.js";
-
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+  Legend
+);
 
 const MyBooking = () => {
   const { user } = useContext(authContext);
@@ -32,7 +41,7 @@ const MyBooking = () => {
 
   const fetchAllBooks = async () => {
     const { data } = await axios.get(
-      `${import.meta.env.VITE_API_URL}/books/${user?.email}`, 
+      `${import.meta.env.VITE_API_URL}/books/${user?.email}`,
       { withCredentials: true }
     );
     setCars(data);
@@ -79,7 +88,7 @@ const MyBooking = () => {
     setIsModalOpen(true);
   };
 
-  const handleSaveChanges = async () => {
+  const handleConfirm = async () => {
     if (!selectedBooking || !startDate || !endDate) return;
 
     const updatedData = {
@@ -99,20 +108,17 @@ const MyBooking = () => {
         }
       );
 
-      if (response.data.success) {
+      if (response.data.modifiedCount>0) {
+        setCars((prevCars) =>
+          prevCars.map((car) =>
+            car._id === selectedBooking._id ? { ...car, ...updatedData } : car
+          )
+        );
         Swal.fire({
           title: "Updated!",
           text: "Booking dates updated successfully, and status confirmed.",
           icon: "success",
         });
-
-        setCars((prevCars) =>
-          prevCars.map((car) =>
-            car._id === selectedBooking._id
-              ? { ...car, ...updatedData }
-              : car
-          )
-        );
 
         setIsModalOpen(false);
       }
@@ -157,8 +163,6 @@ const MyBooking = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Your Bookings</h1>
 
-      
-
       {/* Booking */}
       <div className="overflow-x-auto">
         <table className="table-auto w-full border-collapse border border-gray-200">
@@ -197,14 +201,10 @@ const MyBooking = () => {
                       book.status === "Pending" &&
                       "bg-yellow-100/60 text-yellow-500"
                     } ${
-                      book.status === "In Progress" &&
-                      "bg-blue-100/60 text-blue-500"
-                    } ${
                       book.status === "Confirmed" &&
                       "bg-green-100/60 text-green-500"
                     } ${
-                      book.status === "Canceled" &&
-                      "bg-red-100/60 text-red-500"
+                      book.status === "Canceled" && "bg-red-100/60 text-red-500"
                     }`}
                   >
                     <span
@@ -217,18 +217,18 @@ const MyBooking = () => {
                     <h2 className="text-sm font-normal">{book.status}</h2>
                   </div>
                 </td>
-                <td className="px-4 py-2 text-center">
+                <td className="px-4 py-2 mt-4 flex flex-col md:flex-row items-center justify-center text-center">
                   <button
-                    className="bg-blue-500 text-white px-3 py-1 rounded-md mr-2 hover:bg-blue-600"
+                    className="bg-blue-500 flex items-center text-white px-2 py-1 rounded-md mr-2 hover:bg-blue-600"
                     onClick={() => openModifyModal(book)}
                   >
-                    Modify Date
+                    Modify <CiCalendarDate className="text-xl font-bold"/>
                   </button>
                   <button
-                    className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
+                    className="bg-red-500 flex items-center text-white px-3 py-1 rounded-md hover:bg-red-600"
                     onClick={() => handleCancel(book._id)}
                   >
-                    Cancel
+                    Cancel <LuTrash2/>
                   </button>
                 </td>
               </tr>
@@ -273,7 +273,7 @@ const MyBooking = () => {
                 Cancel
               </button>
               <button
-                onClick={handleSaveChanges}
+                onClick={handleConfirm}
                 className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
               >
                 Confirm
