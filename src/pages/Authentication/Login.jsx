@@ -30,7 +30,6 @@ const Login = () => {
   };
   const googleLogIngHandler = () => {
     handleGoogleLogin().then((res) => {
-       
       const redirectTo = location.state?.from || "/";
       navigate(redirectTo);
     });
@@ -43,7 +42,7 @@ const Login = () => {
   return (
     <div>
       <ToastContainer />
-      <div className=" flex justify-center items-center ">
+      <div className=" flex justify-center items-center my-6">
         <div className="card bg-base-100 w-full max-w-lg shrink-0 rounded-none p-10 border-2">
           <h2 className="text-2xl font-semibold text-center">
             Login your account
@@ -89,7 +88,7 @@ const Login = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary font-semibold text-xl rounded-md">
+              <button className="btn bg-red-400 hover:bg-red-600 transition text-white font-semibold text-xl rounded-md">
                 Login
               </button>
             </div>

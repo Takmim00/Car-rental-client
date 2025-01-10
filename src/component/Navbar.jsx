@@ -1,22 +1,18 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import logo from "../assets/logo.png";
 import { authContext } from "../provider/AuthProvider";
-import logo from '../assets/logo.png';
-
+import "./navbar.css";
 const Navbar = () => {
   const { user, logout } = useContext(authContext);
 
   return (
-    <div className="navbar bg-base-100 shadow-sm px-4">
-
+    <div className="navbar  shadow-sm px-4">
       <div className="flex-1">
         <Link to="/" className="flex gap-2 items-center">
           <img src={logo} alt="" className="h-8" />
-         
         </Link>
       </div>
-      
-
 
       <div className="dropdown dropdown-left md:hidden">
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -40,34 +36,38 @@ const Navbar = () => {
           className="menu menu-sm dropdown-content mt-3 z-[1] w-52 bg-base-100 rounded-box shadow p-2"
         >
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <Link to="/availableCar">Available Cars</Link>
+            <NavLink to="/availableCar">Available Cars</NavLink>
           </li>
           {user && (
             <>
               <li>
-                <Link to="/addCar">Add Car</Link>
+                <NavLink to="/addCar">Add Car</NavLink>
               </li>
               <li>
-                <Link to="/myCar">My Cars</Link>
+                <NavLink to="/myCar">My Cars</NavLink>
               </li>
               <li>
-                <Link to="/myBooking">My Bookings</Link>
+                <NavLink to="/myBooking">My Bookings</NavLink>
               </li>
             </>
           )}
           {!user && (
             <li>
-              <Link to="/login">Log-in</Link>
+              <NavLink to="/login">
+                <button className="btn bg-red-400 hover:bg-red-600 transition text-white">
+                  Log-in
+                </button>
+              </NavLink>
             </li>
           )}
           {user && (
             <li>
               <button
                 onClick={logout}
-                className="btn btn-block bg-gray-200 mt-2"
+                className="btn btn-block  bg-gray-200 mt-2"
               >
                 Logout
               </button>
@@ -75,27 +75,25 @@ const Navbar = () => {
           )}
         </ul>
       </div>
-      
-
 
       <div className="hidden md:flex md:items-center">
         <ul className="menu menu-horizontal items-center px-1">
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <Link to="/availableCar">Available Cars</Link>
+            <NavLink to="/availableCar">Available Cars</NavLink>
           </li>
           {user ? (
             <>
               <li>
-                <Link to="/addCar">Add Car</Link>
+                <NavLink to="/addCar">Add Car</NavLink>
               </li>
               <li>
-                <Link to="/myCar">My Cars</Link>
+                <NavLink to="/myCar">My Cars</NavLink>
               </li>
               <li>
-                <Link to="/myBooking">My Bookings</Link>
+                <NavLink to="/myBooking">My Bookings</NavLink>
               </li>
 
               <div className="dropdown dropdown-end">
@@ -122,7 +120,7 @@ const Navbar = () => {
                   <li>
                     <button
                       onClick={logout}
-                      className="btn btn-block bg-gray-200"
+                      className="btn bg-red-400 hover:bg-red-600 transition text-white"
                     >
                       Logout
                     </button>
@@ -132,7 +130,11 @@ const Navbar = () => {
             </>
           ) : (
             <li>
-              <Link to="/login">Log-in</Link>
+              <Link to="/login">
+                <button className="btn bg-red-400 hover:bg-red-600 transition text-white">
+                  Log-in
+                </button>
+              </Link>
             </li>
           )}
         </ul>

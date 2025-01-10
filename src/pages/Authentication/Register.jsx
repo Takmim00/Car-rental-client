@@ -52,7 +52,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center my-6">
       <ToastContainer />
       <div className="card bg-base-100 w-full max-w-lg shrink-0 rounded-md p-10 border-2 ">
         <h2 className="text-2xl font-semibold text-center">
@@ -114,7 +114,7 @@ const Register = () => {
             </Link>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary font-semibold text-xl rounded-md">
+            <button className="btn bg-red-400 hover:bg-red-600 transition text-white font-semibold text-xl rounded-md">
               Register
             </button>
           </div>
