@@ -3,9 +3,6 @@
 ## Overview  
 The **Car Rental Website** is a user-friendly platform designed to simplify vehicle rentals for individuals and businesses. It offers a seamless booking experience with features like advanced search, secure authentication, and real-time vehicle availability. The system includes a responsive design for accessibility across devices and a powerful backend for efficient inventory management.  
 
-## 📸 Screenshot  
-*(Add a clean screenshot of the project here if available.)*  
-
 ## 🚀 Live Demo  
 🔗 [Live Project Link](https://car-rental-8afd6.web.app/)
 
@@ -54,13 +51,11 @@ cd car-rental-website
 ### 2️⃣ Install Dependencies
 Backend
 ```bash
-Copy code
 cd backend
 npm install
 ```
 Frontend
 ```bash
-Copy code
 cd frontend
 npm install
 ```
