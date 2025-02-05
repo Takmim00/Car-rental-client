@@ -41,6 +41,27 @@ Ensure you have the following dependencies installed:
   "react": "^18.0.0"
 }
 ```
+## 🛠 Installation & Setup  
+Follow these steps to set up the project locally:  
+
+### 1️⃣ Clone the Repository  
+```bash
+git clone https://github.com/your-username/car-rental-website.git
+cd car-rental-website
+```
 
 
+### 2️⃣ Install Dependencies
+Backend
+```bash
+Copy code
+cd backend
+npm install
+```
+Frontend
+```bash
+Copy code
+cd frontend
+npm install
+```
 
