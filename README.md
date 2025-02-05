@@ -20,13 +20,13 @@ The Car Rental Website is a user-friendly platform designed to simplify vehicle 
 - Authentication: JWT (JSON Web Tokens)
 # ✨ Features
 
-✅ Advanced Search – Filter vehicles based on type, price, availability, etc.
-✅ User Authentication – Secure login and registration system.
-✅ Real-Time Booking – Instantly check vehicle availability and book online.
-✅ Secure Payment – Integrated with a reliable payment gateway.
-✅ Admin Dashboard – Manage cars, bookings, and users efficiently.
-✅ Responsive Design – Works seamlessly across mobile, tablet, and desktop devices.
-✅ Customer Support – Built-in chat or query system for quick assistance.
+- ✅ Advanced Search – Filter vehicles based on type, price, availability, etc.
+- ✅ User Authentication – Secure login and registration system.
+- ✅ Real-Time Booking – Instantly check vehicle availability and book online.
+- ✅ Secure Payment – Integrated with a reliable payment gateway.
+- ✅ Admin Dashboard – Manage cars, bookings, and users efficiently.
+- ✅ Responsive Design – Works seamlessly across mobile, tablet, and desktop devices.
+- ✅ Customer Support – Built-in chat or query system for quick assistance.
 
 # Npm Package
 
