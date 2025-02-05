@@ -40,7 +40,7 @@ Ensure you have the following dependencies installed:
   "stripe": "^12.0.0",
   "react": "^18.0.0"
 }
-
+```
 
 
 
