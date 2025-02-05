@@ -7,7 +7,7 @@ The **Car Rental Website** is a user-friendly platform designed to simplify vehi
 *(Add a clean screenshot of the project here if available.)*  
 
 ## 🚀 Live Demo  
-🔗 [Live Project Link](#) *(Replace with the actual URL when available)*  
+🔗 [Live Project Link](https://car-rental-8afd6.web.app/) *(Replace with the actual URL when available)*  
 
 ## 🛠 Technologies Used  
 - **Frontend:** HTML, CSS, JavaScript (React.js)  
