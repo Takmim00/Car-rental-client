@@ -9,7 +9,7 @@
 🖥️ Screenshot
 (Add a clean UI screenshot here for better representation)
 
-🛠️ Technologies Used
+#🛠️ Technologies Used
 Frontend: HTML, CSS, JavaScript, React.js
 Backend: Node.js, Express.js
 Database: MongoDB
