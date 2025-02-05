@@ -28,7 +28,8 @@ The **Car Rental Website** is a user-friendly platform designed to simplify vehi
 ## 📦 Dependencies  
 Ensure you have the following dependencies installed:  
 
-```json
+
+``json
 {
   "express": "^4.17.1",
   "mongoose": "^6.0.0",
@@ -40,10 +41,6 @@ Ensure you have the following dependencies installed:
   "react": "^18.0.0"
 }
 
-## 🛠 Installation & Setup  
-Follow these steps to set up the project locally:  
 
-### 1️⃣ Clone the Repository  
-```bash
-git clone https://github.com/your-username/car-rental-website.git
-cd car-rental-website
+
+
