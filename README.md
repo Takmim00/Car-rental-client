@@ -1,6 +1,7 @@
 🚗 Car Rental Website
-📌 Overview
-The Car Rental Website is a seamless and user-friendly platform designed for individuals and businesses to rent vehicles conveniently. It streamlines the car rental process with advanced search options, secure authentication, and an efficient booking system. Users can browse a wide selection of vehicles, check availability, and complete bookings online, ensuring a hassle-free experience.
+
+- 📌 Overview
+- The Car Rental Website is a seamless and user-friendly platform designed for individuals and businesses to rent vehicles conveniently. It streamlines the car rental process with advanced search options, secure authentication, and an efficient booking system. Users can browse a wide selection of vehicles, check availability, and complete bookings online, ensuring a hassle-free experience.
 
 🌍 Live Demo
 🔗 Live Project Link (Replace with actual URL when available)
@@ -15,6 +16,7 @@ Database: MongoDB
 Authentication: JWT (JSON Web Tokens)
 Payment Gateway: Stripe/PayPal (if applicable)
 Deployment: AWS / Vercel / Netlify (Mention your choice)
+
 ✨ Features
 ✅ Advanced Search & Filters – Find cars based on category, price, and availability.
 ✅ Secure User Authentication – Login & signup using email/password authentication.
