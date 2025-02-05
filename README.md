@@ -18,13 +18,15 @@ The Car Rental Website is a user-friendly platform designed to simplify vehicle 
 - Backend: Node.js, Express.js
 - Database: MongoDB
 - Authentication: JWT (JSON Web Tokens)
-# Key features
+# ✨ Features
 
-1. User can car select and booking
-2. User search the car
-3. User chose low and higest price car
-4. User chose to booking date
-5. User add the car
+✅ Advanced Search – Filter vehicles based on type, price, availability, etc.
+✅ User Authentication – Secure login and registration system.
+✅ Real-Time Booking – Instantly check vehicle availability and book online.
+✅ Secure Payment – Integrated with a reliable payment gateway.
+✅ Admin Dashboard – Manage cars, bookings, and users efficiently.
+✅ Responsive Design – Works seamlessly across mobile, tablet, and desktop devices.
+✅ Customer Support – Built-in chat or query system for quick assistance.
 
 # Npm Package
 
