@@ -1,28 +1,75 @@
-# Project Name
-- Car Rental website
+# 🚗 Car Rental Website
 
-# Purpose
-- The purpose of the car rental website is to provide a seamless and user-friendly platform for individuals and businesses to rent vehicles conveniently. It aims to streamline the car rental process by offering features such as advanced search options, secure user authentication, and an efficient booking system. Users can browse a wide selection of vehicles, check availability, and make bookings online, while the platform ensures secure payment options and responsive design for accessibility across devices. Additionally, the system will include a robust backend for managing car inventory, tracking availability, and maintaining real-time updates. With a focus on user satisfaction, the website will also integrate customer support features to address queries promptly, making the car rental experience reliable and hassle-free.
+A seamless and user-friendly platform for individuals and businesses to rent vehicles conveniently. The website simplifies the car rental process with advanced search options, secure authentication, and an efficient booking system. Users can browse a wide selection of vehicles, check availability, and complete bookings online with secure payment options and a responsive design for all devices.
 
-# Live URL
-- https://car-rental-8afd6.web.app/
+🌍 Live Demo
+🔗 Live Project Link (Replace with actual URL when available)
 
-# Key features
-1. User can car select and booking
-2. User search the car
-3. User chose low and higest price car
-4. User chose to booking date
-5. User add the car
+🖥️ Screenshot
+(Include a clean screenshot showcasing the website's UI here.)
 
-# Npm Package
-1. axios
-2. date-fns
-3. chart.js
-4. aos
-5. react-icons
-6. cloudinary
-7. react-dropzone
-8. react-datepicker
-9. react-hot-toast
-10. react-toastify
-11. sweetalert2
+# 🛠️ Technologies Used
+
+Frontend:
+⚡ React.js (with React Router)
+🎨 React Icons, FontAwesome, Tailwind CSS / Styled Components (if used)
+📊 Chart.js & React-ChartJS-2 (for data visualization, if applicable)
+📅 React Datepicker (for booking date selection)
+🍞 React Toastify & React Hot Toast (for notifications)
+
+# Backend:
+
+🚀 Node.js with Express.js
+🔐 JWT Authentication (JSON Web Tokens)
+🛢️ MongoDB (Mongoose) / Firebase (mention your database choice)
+☁️ Cloudinary (for image uploads)
+
+# Other Integrations:
+
+💳 Stripe / PayPal (for secure transactions)
+📦 LocalForage (for client-side storage)
+🍬 SweetAlert2 (for user-friendly alerts and confirmations)
+
+# ✨ Features
+
+✅ Advanced Search & Filters – Search cars by category, price, and availability.
+✅ User Authentication – Secure login & registration (JWT-based authentication).
+✅ Real-Time Booking System – Check car availability and book instantly.
+✅ Responsive Design – Fully optimized for mobile, tablet, and desktop.
+✅ Secure Payments – Integration with Stripe / PayPal.
+✅ Admin Dashboard – Manage cars, bookings, and user data efficiently.
+✅ Customer Support – Integrated chat or contact form for queries.
+
+# 📦 Dependencies
+json
+Copy
+Edit
+{
+"@fortawesome/fontawesome-free": "^6.7.2",
+"@fortawesome/fontawesome-svg-core": "^6.7.2",
+"@fortawesome/free-brands-svg-icons": "^6.7.2",
+"@fortawesome/free-regular-svg-icons": "^6.7.2",
+"@fortawesome/free-solid-svg-icons": "^6.7.2",
+"@fortawesome/react-fontawesome": "^0.2.2",
+"aos": "^2.3.4",
+"axios": "^1.7.9",
+"chart.js": "^4.4.7",
+"cloudinary": "^2.5.1",
+"date-fns": "^4.1.0",
+"firebase": "^11.1.0",
+"localforage": "^1.10.0",
+"match-sorter": "^8.0.0",
+"react": "^18.3.1",
+"react-chartjs-2": "^5.2.0",
+"react-datepicker": "^7.5.0",
+"react-dom": "^18.3.1",
+"react-dropzone": "^14.3.5",
+"react-hook-form": "^7.54.2",
+"react-hot-toast": "^2.4.1",
+"react-icons": "^5.4.0",
+"react-router-dom": "^7.1.0",
+"react-toastify": "^11.0.2",
+"sort-by": "^1.2.0",
+"sweetalert2": "^11.15.3",
+"sweetalert2-react-content": "^5.1.0"
+}
