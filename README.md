@@ -39,3 +39,11 @@ Ensure you have the following dependencies installed:
   "stripe": "^12.0.0",
   "react": "^18.0.0"
 }
+
+## 🛠 Installation & Setup  
+Follow these steps to set up the project locally:  
+
+### 1️⃣ Clone the Repository  
+```bash
+git clone https://github.com/your-username/car-rental-website.git
+cd car-rental-website
