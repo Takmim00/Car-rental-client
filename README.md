@@ -29,7 +29,7 @@ The **Car Rental Website** is a user-friendly platform designed to simplify vehi
 Ensure you have the following dependencies installed:  
 
 
-``json
+```json
 {
   "express": "^4.17.1",
   "mongoose": "^6.0.0",
