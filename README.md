@@ -4,7 +4,8 @@
 The **Car Rental Website** is a user-friendly platform designed to simplify vehicle rentals for individuals and businesses. It offers a seamless booking experience with features like advanced search, secure authentication, and real-time vehicle availability. The system includes a responsive design for accessibility across devices and a powerful backend for efficient inventory management.  
 
 ## 🚀 Live Demo  
-🔗 [Live Project Link](https://car-rental-8afd6.web.app/)
+🔗 **Client Repo:** [Car Rental Client](https://github.com/Takmim00/Car-rental-client)  
+🔗 **Server Repo:** [Car Rental Server](https://github.com/Takmim00/Car-rental-server)  
 
 ## 🛠 Technologies Used  
 - **Frontend:** HTML, CSS, JavaScript (React.js)  
