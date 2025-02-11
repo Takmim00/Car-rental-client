@@ -19,8 +19,8 @@ const RecentListing = () => {
   }, []);
 
   return (
-    <div className="container py-8 w-11/12 mx-auto">
-      <h2 className="text-2xl font-bold mb-6">Latest Cars</h2>
+    <div className="container py-6 w-11/12 mx-auto">
+      <h2 className="text-4xl font-bold mb-6">Latest Cars</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {cars.map((car) => (
           <div
@@ -42,7 +42,7 @@ const RecentListing = () => {
                 </span>
               </p>
               <p>
-                <span className="text-sm font-medium">Date Posted:</span>
+                <span className="text-sm font-medium">Posted Date:</span>
                 <span className="text-sm text-gray-500">
                   {new Date(car.dateAdded).toLocaleDateString()}
                 </span>
