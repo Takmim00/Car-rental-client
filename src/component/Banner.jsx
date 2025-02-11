@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa6";
 
 const Banner = () => {
   return (
@@ -17,8 +18,8 @@ const Banner = () => {
           affordable car rentals for an opulent yet economical ride.
         </p>
         <Link to="/availableCar">
-          <button className="mt-6 btn btn-primary px-6 py-3 text-lg font-semibold shadow-md">
-            View Available Cars
+          <button className="mt-6 btn bg-red-400 hover:bg-red-500 text-white rounded-full   text-lg font-semibold shadow-md text-center">
+            View Available Cars <FaArrowRight />
           </button>
         </Link>
       </div>
