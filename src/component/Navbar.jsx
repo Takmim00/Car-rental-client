@@ -132,12 +132,12 @@ const Navbar = () => {
             </>
           ) : (
             <li>
-              <NavLink
+              <Link
                 to="/login"
                 className="btn bg-red-400 hover:bg-red-600 transition text-white px-4"
               >
                 Log-in
-              </NavLink>
+              </Link>
             </li>
           )}
         </ul>
