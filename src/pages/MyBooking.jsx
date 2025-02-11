@@ -160,7 +160,7 @@ const MyBooking = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="w-11/12 mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">My Bookings</h1>
 
       {/* Booking */}
@@ -208,6 +208,7 @@ const MyBooking = () => {
                   ${book.dailyRentalPrice}
                 </td>
                 <td className="px-4 py-2 text-center">
+                  
                   <div
                     className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${
                       book.status === "Pending" &&
@@ -222,7 +223,7 @@ const MyBooking = () => {
                     <span
                       className={`h-1.5 w-1.5 rounded-full ${
                         book.status === "Pending" && "bg-yellow-500"
-                      }${book.status === "Confirmed" && "bg-green-500"} ${
+                      } ${book.status === "Confirmed" && "bg-green-500"} ${
                         book.status === "Canceled" && "bg-red-500"
                       }`}
                     ></span>
@@ -249,8 +250,8 @@ const MyBooking = () => {
         </table>
       </div>
       {/* Chart Section */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-4">Data Visualization</h2>
+      <div className="my-8">
+        <h2 className="text-2xl font-bold mb-4">Data Visualization</h2>
         <div className="bg-white p-4 rounded-md shadow-md">
           <Bar data={chartData} options={chartOptions} />
         </div>

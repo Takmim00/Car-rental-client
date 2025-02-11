@@ -61,8 +61,8 @@ const MyCar = () => {
   };
 
   return (
-    <div className="p-6">
-      <div className="container mx-auto">
+    <div className="p-6 w-11/12 mx-auto">
+
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold mb-6">Manage Your Cars</h1>
           <div className="mb-4 flex gap-4 items-center">
@@ -176,7 +176,6 @@ const MyCar = () => {
             </p>
           )}
         </div>
-      </div>
     </div>
   );
 };

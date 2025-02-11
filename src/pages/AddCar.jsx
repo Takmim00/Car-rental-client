@@ -91,7 +91,7 @@ const AddCar = () => {
     
   };
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg my-4">
       <h2 className="text-2xl font-semibold mb-6">Add a New Car</h2>
 
       <form onSubmit={handleAddCar} className="space-y-4">
@@ -235,7 +235,7 @@ const AddCar = () => {
 
         <button
           type="submit"
-          className="w-full p-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 bg-red-500 text-white rounded-lg font-medium hover:bg-red-700 transition focus:outline-none focus:ring-2 focus:ring-red-500"
         >
           Add Car
         </button>
