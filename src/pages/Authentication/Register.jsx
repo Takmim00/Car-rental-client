@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import bgImage from '../../assets/authentication.png';
+import signUp from '../../assets/Register.png';
 import { authContext } from "../../provider/AuthProvider";
 
 const Register = () => {
@@ -54,8 +56,18 @@ const Register = () => {
   return (
     <div className="flex justify-center items-center my-6">
       <ToastContainer />
-      <div className="card bg-base-100 w-full max-w-lg shrink-0 rounded-md p-10 border-2 ">
-        <h2 className="text-2xl font-semibold text-center">
+      
+      <div
+          className="flex flex-col lg:flex-row bg-white shadow-2xl rounded-lg w-4/5   max-w-4xl"
+          style={{
+            backgroundImage: `url(${bgImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          {/* Left Section - Form */}
+          <div className="md:w-1/2 p-8">
+          <h2 className="text-2xl font-semibold text-center">
           Register your account
         </h2>
         <form onSubmit={handleSubmit} className="card-body">
@@ -156,7 +168,17 @@ const Register = () => {
             Login
           </Link>
         </p>
-      </div>
+            
+          </div>
+          {/* Right Section - Image */}
+          <div className="md:w-1/2  flex items-center justify-center rounded-l-lg">
+            <img
+              src={signUp}
+              alt="Cafe Illustration"
+              className="w-3/4  rounded-lg"
+            />
+          </div>
+        </div>
     </div>
   );
 };
