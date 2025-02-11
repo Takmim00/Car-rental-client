@@ -2,12 +2,13 @@ import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { authContext } from "../provider/AuthProvider";
-import "./navbar.css";
+import './navbar.css'
+
 const Navbar = () => {
   const { user, logout } = useContext(authContext);
 
   return (
-    <div className="navbar  shadow-sm px-4">
+    <div className="navbar  shadow-sm w-11/12 mx-auto">
       <div className="flex-1">
         <Link to="/" className="flex gap-2 items-center">
           <img src={logo} alt="" className="h-8" />
@@ -56,10 +57,11 @@ const Navbar = () => {
           )}
           {!user && (
             <li>
-              <NavLink to="/login">
-                <button className="btn bg-red-400 hover:bg-red-600 transition text-white">
-                  Log-in
-                </button>
+              <NavLink
+                to="/login"
+                className="btn bg-red-400 hover:bg-red-600 transition text-white"
+              >
+                Log-in
               </NavLink>
             </li>
           )}
@@ -77,7 +79,7 @@ const Navbar = () => {
       </div>
 
       <div className="hidden md:flex md:items-center">
-        <ul className="menu menu-horizontal items-center px-1">
+        <ul className="flex gap-4 justify-center items-center py-2">
           <li>
             <NavLink to="/">Home</NavLink>
           </li>
@@ -130,11 +132,12 @@ const Navbar = () => {
             </>
           ) : (
             <li>
-              <Link to="/login">
-                <button className="btn bg-red-400 hover:bg-red-600 transition text-white">
-                  Log-in
-                </button>
-              </Link>
+              <NavLink
+                to="/login"
+                className="btn bg-red-400 hover:bg-red-600 transition text-white px-4"
+              >
+                Log-in
+              </NavLink>
             </li>
           )}
         </ul>
