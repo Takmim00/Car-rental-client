@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useCallback, useContext, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { authContext } from "../provider/AuthProvider";
-import { toast } from 'react-hot-toast'
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-
+import { authContext } from "../provider/AuthProvider";
 
 const AddCar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { user } = useContext(authContext);
   const [uploadedImages, setUploadedImages] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
@@ -40,7 +39,6 @@ const AddCar = () => {
 
     const uploadedImageData = await res.json();
     const uploadedImageUrl = uploadedImageData.url;
-
 
     return uploadedImageUrl;
   };
@@ -76,118 +74,144 @@ const AddCar = () => {
       dateAdded: new Date().toISOString(),
       bookingStatus: "pending",
     };
-    try{
+    try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/add-car`,
         addCar
       );
-      form.reset()
-      toast.success('Data Added Successfully!!!')
-      navigate('/myCar')
-    }catch(err){
-      toast.error(err.message)
+      form.reset();
+      toast.success("Data Added Successfully!!!");
+      navigate("/myCar");
+    } catch (err) {
+      toast.error(err.message);
     }
-
-    
   };
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg my-4">
-      <h2 className="text-2xl font-semibold mb-6">Add a New Car</h2>
+    <div className="max-w-5xl mx-auto p-8 bg-red-50 rounded-xl shadow-2xl my-8">
+      <h2 className="text-3xl font-bold text-center text-red-800 mb-8">
+        Add a New Car
+      </h2>
 
-      <form onSubmit={handleAddCar} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Car Model
-          </label>
-          <input
-            type="text"
-            name="carModel"
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Car Model"
-          />
+      <form onSubmit={handleAddCar} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Car Model */}
+          <div>
+            <label className="block text-sm font-medium text-red-800 mb-1">
+              Car Model
+            </label>
+            <input
+              type="text"
+              name="carModel"
+              className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200 ease-in-out"
+              placeholder="Enter Car Model"
+              required
+            />
+          </div>
+
+          {/* Daily Rental Price */}
+          <div>
+            <label className="block text-sm font-medium text-red-800 mb-1">
+              Daily Rental Price
+            </label>
+            <input
+              type="number"
+              name="dailyRentalPrice"
+              className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200 ease-in-out"
+              placeholder="Enter Daily Rental Price"
+              required
+            />
+          </div>
+
+          {/* Availability */}
+          <div>
+            <label className="block text-sm font-medium text-red-800 mb-1">
+              Availability
+            </label>
+            <select
+              name="availability"
+              className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200 ease-in-out"
+            >
+              <option value="Available">Available</option>
+              <option value="Unavailable">Unavailable</option>
+            </select>
+          </div>
+
+          {/* Vehicle Registration Number */}
+          <div>
+            <label className="block text-sm font-medium text-red-800 mb-1">
+              Vehicle Registration Number
+            </label>
+            <input
+              type="text"
+              name="vehicleRegNumber"
+              className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200 ease-in-out"
+              placeholder="Enter Registration Number"
+            />
+          </div>
+
+          {/* Features */}
+          <div>
+            <label className="block text-sm font-medium text-red-800 mb-1">
+              Features
+            </label>
+            <select
+              name="features"
+              className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200 ease-in-out"
+            >
+              <option value="GPS">GPS</option>
+              <option value="AC">AC</option>
+            </select>
+          </div>
+
+          {/* Location */}
+          <div>
+            <label className="block text-sm font-medium text-red-800 mb-1">
+              Location
+            </label>
+            <input
+              type="text"
+              name="location"
+              className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200 ease-in-out"
+              placeholder="Enter Location"
+              required
+            />
+          </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Daily Rental Price
-          </label>
-          <input
-            type="number"
-            name="dailyRentalPrice"
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Daily Rental Price"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Availability
-          </label>
-
-          <select
-            name="availability"
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="Available">Available</option>
-            <option value="Unavailable">Unavailable</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Vehicle Registration Number
-          </label>
-          <input
-            type="text"
-            name="vehicleRegNumber"
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Registration Number"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Features
-          </label>
-          <select
-            name="features"
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="GPS">GPS</option>
-            <option value="AC">AC</option>
-          </select>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
+          {/* Description */}
+          <label className="block text-sm font-medium text-red-800 mb-1">
             Description
           </label>
           <textarea
             name="description"
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="4"
+            className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 transition duration-200 ease-in-out"
             placeholder="Enter Description"
+            required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-red-800 mb-1">
             Images
           </label>
           <div
             {...getRootProps()}
             name="image"
-            className="border-2 border-dashed border-gray-300 rounded-lg p-6 bg-gray-50 flex flex-col items-center justify-center cursor-pointer hover:border-blue-500"
+            className="border-2 border-dashed border-red-300 rounded-lg p-6 bg-red-100 flex flex-col items-center justify-center cursor-pointer hover:border-red-500 transition duration-200 ease-in-out"
           >
             <input {...getInputProps()} />
             <div className="text-center">
               {isDragActive ? (
-                <p className="text-gray-700">Drop the files here...</p>
+                <p className="text-red-700 font-semibold">
+                  Drop the files here...
+                </p>
               ) : (
                 <>
-                  <p className="text-gray-500">
+                  <p className="text-red-600">
                     Drag 'n' drop some files here, or click to select files
                   </p>
-                  
                 </>
               )}
             </div>
@@ -199,7 +223,7 @@ const AddCar = () => {
                 {uploadedImages.map((file, index) => (
                   <div
                     key={index}
-                    className="relative w-32 h-32 border rounded-lg overflow-hidden"
+                    className="relative w-32 h-32 border border-red-300 rounded-lg overflow-hidden shadow-md"
                   >
                     <input
                       type="image"
@@ -209,7 +233,10 @@ const AddCar = () => {
                       className="w-full h-full object-cover"
                     />
                     <button
-                      onClick={() => handleRemoveImage(index)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleRemoveImage(index);
+                      }}
                       className="absolute top-1 right-1 bg-red-500 text-white px-2 py-1 rounded-full text-sm"
                     >
                       ×
@@ -221,21 +248,10 @@ const AddCar = () => {
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Location
-          </label>
-          <input
-            type="text"
-            name="location"
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Location"
-          />
-        </div>
-
+        <div>{/* Submit Button */}</div>
         <button
           type="submit"
-          className="w-full p-3 bg-red-500 text-white rounded-lg font-medium hover:bg-red-700 transition focus:outline-none focus:ring-2 focus:ring-red-500"
+          className="w-full p-4 bg-red-700 text-white font-bold text-lg rounded-md hover:bg-red-800 transition duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
         >
           Add Car
         </button>

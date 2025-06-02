@@ -1,9 +1,9 @@
 import axios from "axios";
+import { format } from "date-fns";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import { authContext } from "../provider/AuthProvider";
-import { format } from "date-fns";
 
 const CarDetails = () => {
   const navigate = useNavigate();
@@ -12,7 +12,6 @@ const CarDetails = () => {
   const [car, setCar] = useState({});
   useEffect(() => {
     fetchJobData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchJobData = async () => {
@@ -25,23 +24,23 @@ const CarDetails = () => {
     e.preventDefault();
 
     if (user?.email === car?.email) return toast.error("Action not permitted!");
-    const bookingDate = format(new Date().toLocaleDateString(), 'dd-MM-yyyy ');
+    const bookingDate = format(new Date().toLocaleDateString(), "dd-MM-yyyy ");
     const bookingDetails = {
       carId: car._id,
       userEmail: user.email,
       carModel: car.carModel,
       dailyRentalPrice: car.dailyRentalPrice,
-      bookingDate, 
-      image: car.images,
-      status: 'Pending'
+      bookingDate,
+      image: car.images[0],
+      status: "Pending",
     };
-  
+
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/addBooking`,
         bookingDetails
       );
-      
+
       toast.success("Data Added Successfully!!!");
       navigate("/myBooking");
     } catch (err) {
@@ -49,47 +48,67 @@ const CarDetails = () => {
     }
   };
   return (
-    <form
-      onSubmit={handleBooking}
-      className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg"
-    >
-      <img
-        src={car.images}
-        alt={car}
-        className="w-full h-80 object-cover rounded-md mb-4"
-      />
-      <h2 className="text-3xl font-bold text-gray-800">{car.carModel}</h2>
-      <p>{car.description}</p>
-      <p className="text-gray-600 ">
-        <span className="font-semibold">Price: </span>${car.dailyRentalPrice}
-        /Day
-      </p>
-      <div className="">
-        <p className="text-sm text-gray-500 font-semibold">
-          Availability:
-          <span
-            className={
-              car.availability === "Available"
-                ? "text-green-600 font-bold"
-                : "text-red-600 font-bold"
-            }
+    <div className="container mx-auto px-4 py-8 w-11/12">
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden md:flex">
+        {/* Image Section */}
+        <div className="md:w-1/2">
+          
+          <img
+            src={car.images?.[0]}
+            alt={car.carModel}
+            className="w-full  object-cover"
+          />
+        </div>
+
+        {/* Details Section */}
+        <div className="md:w-1/2 p-6 flex flex-col justify-between">
+          <div>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">
+              {car.carModel}
+            </h2>
+            <p className="text-gray-700 mb-4 leading-relaxed">
+              {car.description}
+            </p>
+
+            <p className="text-2xl font-semibold text-red-600 mb-4">
+              ${car.dailyRentalPrice}/Day
+            </p>
+
+            <div className="mb-4">
+              <span className="text-lg font-semibold text-gray-800 mr-2">
+                Availability:
+              </span>
+              <span
+                className={`text-lg font-bold ${
+                  car.availability === "Available"
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {car.availability}
+              </span>
+            </div>
+
+            <p className="text-gray-600 text-sm mb-2">
+              <span className="font-semibold">Date Added:</span>{" "}
+              {car.dateAdded
+                ? new Date(car.dateAdded).toLocaleDateString()
+                : "N/A"}
+            </p>
+            <p className="text-gray-600 text-sm mb-4">
+              <span className="font-semibold">Features:</span> {car.features}
+            </p>
+          </div>
+
+          <button
+            onClick={handleBooking}
+            className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg text-xl font-semibold transition duration-300 ease-in-out"
           >
-            {car.availability}
-          </span>
-        </p>
-        <p className="text-sm text-gray-500">
-          <span className="font-semibold">Date: </span>
-          {new Date(car.dateAdded).toLocaleDateString()}
-        </p>
-        <p className="text-sm text-gray-500">
-          <span className="font-semibold">Features: </span>
-          {car.features}
-        </p>
-        <button className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg">
-          Book Now
-        </button>
+            Book Now
+          </button>
+        </div>
       </div>
-    </form>
+    </div>
   );
 };
 

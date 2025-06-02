@@ -139,8 +139,8 @@ const MyBooking = () => {
       {
         label: "Daily Rental Price",
         data: cars.map((car) => car.dailyRentalPrice),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(220, 38, 38, 0.6)", // Shades of red
+        borderColor: "rgba(185, 28, 28, 1)", // Darker red
         borderWidth: 1,
       },
     ],
@@ -155,6 +155,7 @@ const MyBooking = () => {
       title: {
         display: true,
         text: "Car Daily Rental Prices",
+        color: "#b91c1c", // Dark red for title
       },
     },
   };
@@ -165,9 +166,9 @@ const MyBooking = () => {
 
       {/* Booking */}
       <div className="overflow-x-auto">
-        <table className="table-auto w-full border-collapse border border-gray-200">
-          <thead>
-            <tr className="bg-gray-100 rounded-md">
+        <table className="table-auto w-full border-collapse border border-red-200 rounded-lg overflow-hidden">
+          <thead className="bg-red-500 text-white">
+            <tr>
               <th className="px-4 py-2">Car Image</th>
               <th className="px-4 py-2">Car Model</th>
               <th className="px-4 py-2">Booking Date</th>
@@ -208,7 +209,6 @@ const MyBooking = () => {
                   ${book.dailyRentalPrice}
                 </td>
                 <td className="px-4 py-2 text-center">
-                  
                   <div
                     className={`inline-flex items-center px-3 py-1 rounded-full gap-x-2 ${
                       book.status === "Pending" &&
@@ -232,13 +232,13 @@ const MyBooking = () => {
                 </td>
                 <td className="px-4 py-2 mt-4 flex flex-col md:flex-row items-center justify-center text-center">
                   <button
-                    className="bg-blue-500 flex items-center text-white px-2 py-1 rounded-md mr-2 hover:bg-blue-600"
+                    className="bg-red-600 flex items-center text-white px-2 py-1 rounded-md mr-2 hover:bg-red-700 transition duration-300"
                     onClick={() => openModifyModal(book)}
                   >
                     Modify <CiCalendarDate className="text-xl font-bold" />
                   </button>
                   <button
-                    className="bg-red-500 flex items-center text-white px-3 py-1 rounded-md hover:bg-red-600"
+                    className="bg-gray-500 flex items-center text-white px-3 py-1 rounded-md hover:bg-gray-600 transition duration-300"
                     onClick={() => handleCancel(book._id)}
                   >
                     Cancel <LuTrash2 />
@@ -280,14 +280,14 @@ const MyBooking = () => {
             </div>
             <div className="flex justify-end gap-2">
               <button
-                className="bg-gray-500 text-white px-3 py-1 rounded-md hover:bg-gray-600"
+                className="bg-gray-500 text-white px-3 py-1 rounded-md hover:bg-gray-600 transition duration-300"
                 onClick={() => setIsModalOpen(false)}
               >
                 Cancel
               </button>
               <button
-                onClick={handleConfirm}
-                className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600"
+                onClick={handleConfirm} // Use the red theme for the Confirm button
+                className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-700 transition duration-300"
               >
                 Confirm
               </button>

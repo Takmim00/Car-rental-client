@@ -5,15 +5,13 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateCar = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { id } = useParams();
   const [uploadedImages, setUploadedImages] = useState([]);
   const [features, setFeatures] = useState("");
   const [availability, setAvailability] = useState("");
   const [imageUrls, setImageUrls] = useState([]);
   const [car, setCar] = useState({});
-
-
 
   const onDrop = useCallback((acceptedFiles) => {
     setUploadedImages((prevImages) => [...prevImages, ...acceptedFiles]);
@@ -61,7 +59,6 @@ const UpdateCar = () => {
     );
     setCar(data);
     setImageUrls(data.images || []);
-
   };
 
   useEffect(() => {
@@ -124,19 +121,23 @@ const UpdateCar = () => {
       setImageUrls(updatedImageUrls);
       setUploadedImages([]);
       toast.success("Data Updated Successfully!!!");
-      navigate('/myCar')
+      navigate("/myCar");
     } catch (err) {
-
       toast.error(err.message);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-semibold mb-6">Update Car</h2>
+    <div className="max-w-4xl mx-auto p-8 bg-red-50 rounded-lg shadow-xl my-8">
+      <h2 className="text-3xl font-bold text-red-800 mb-8 text-center">
+        Update Car Information
+      </h2>
 
-      <form onSubmit={handleUpdateCar} className="space-y-4">
-        <div>
+      <form
+        onSubmit={handleUpdateCar}
+        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+      >
+        <div className="col-span-2 md:col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Car Model
           </label>
@@ -144,13 +145,13 @@ const UpdateCar = () => {
             type="text"
             name="carModel"
             defaultValue={car.carModel}
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
             placeholder="Enter Car Model"
             required
           />
         </div>
 
-        <div>
+        <div className="col-span-2 md:col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Daily Rental Price
           </label>
@@ -158,13 +159,13 @@ const UpdateCar = () => {
             type="number"
             defaultValue={car.dailyRentalPrice}
             name="dailyRentalPrice"
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
             placeholder="Enter Daily Rental Price"
             required
           />
         </div>
 
-        <div>
+        <div className="col-span-2 md:col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Availability
           </label>
@@ -172,14 +173,14 @@ const UpdateCar = () => {
             name="availability"
             value={availability}
             onChange={handleAvailabilityChange}
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="Available">Available</option>
             <option value="Unavailable">Unavailable</option>
           </select>
         </div>
 
-        <div>
+        <div className="col-span-2 md:col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Vehicle Registration Number
           </label>
@@ -187,13 +188,13 @@ const UpdateCar = () => {
             type="text"
             defaultValue={car.vehicleRegNumber}
             name="vehicleRegNumber"
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
             placeholder="Enter Registration Number"
             required
           />
         </div>
 
-        <div>
+        <div className="col-span-2 md:col-span-1">
           <label className="block text-sm font-medium text-gray-700">
             Features
           </label>
@@ -201,26 +202,39 @@ const UpdateCar = () => {
             name="features"
             value={features}
             onChange={handleFeaturesChange}
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="GPS">GPS</option>
             <option value="AC">AC</option>
           </select>
         </div>
+        <div className="col-span-2 md:col-span-1">
+          <label className="block text-sm font-medium  text-gray-700">
+            Location
+          </label>
+          <input
+            type="text"
+            defaultValue={car.location}
+            name="location"
+            className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+            placeholder="Enter Location"
+            required
+          />
+        </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
+        <div className="col-span-2 md:col-span-2">
+          <label className="block text-sm font-medium  text-gray-700">
             Description
           </label>
           <textarea
             name="description"
             defaultValue={car.description}
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-1 p-3 w-full border border-red-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
             placeholder="Enter Description"
           />
         </div>
 
-        <div>
+        <div className="col-span-2 md:col-span-2">
           <label className="block text-sm font-medium text-gray-700">
             Images
           </label>
@@ -289,23 +303,11 @@ const UpdateCar = () => {
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Location
-          </label>
-          <input
-            type="text"
-            defaultValue={car.location}
-            name="location"
-            className="mt-1 p-3 w-full border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter Location"
-            required
-          />
-        </div>
+        
 
         <button
           type="submit"
-          className="w-full p-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition focus:outline-none focus:ring-2 focus:ring-red-500 col-span-2"
         >
           Update Car
         </button>
