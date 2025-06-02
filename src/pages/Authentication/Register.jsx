@@ -7,7 +7,8 @@ import signUp from "../../assets/Register.png";
 import { authContext } from "../../provider/AuthProvider";
 
 const Register = () => {
-  const { setUser, createNewUser, handleGoogleLogin } = useContext(authContext);
+  const { setUser, createNewUser, handleGoogleLogin, updateUserProfile } =
+    useContext(authContext);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,10 +35,21 @@ const Register = () => {
 
     createNewUser(email, password)
       .then((result) => {
-        const user = { ...result.user, displayName: name, photoURL: photo };
-        setUser(user);
-        toast.success("Registration successful! Redirecting to login...");
-        navigate("/");
+        updateUserProfile(name, photo)
+          .then(() => {
+            const updatedUser = {
+              ...result.user,
+              displayName: name,
+              photoURL: photo,
+            };
+            setUser(updatedUser);
+            toast.success("Registration successful! Redirecting to home...");
+            navigate("/");
+            console.log(updatedUser);
+          })
+          .catch((err) => {
+            toast.error("Profile update failed: " + err.message);
+          });
       })
       .catch((error) => {
         const errorMessage =
