@@ -51,12 +51,12 @@ const RecentListing = () => {
                 <span className="text-sm font-medium">Availability: </span>
                 <span
                   className={
-                    car.availability === "Available"
-                      ? "text-green-600 font-bold"
-                      : "text-red-600 font-bold"
+                    car.bookingCount > 0
+                      ? "text-red-600 font-bold"
+                      : "text-green-600 font-bold"
                   }
                 >
-                  {car.availability}
+                  {car.bookingCount > 0 ? "Unavailable" : "Available"}
                 </span>
               </div>
               <div>

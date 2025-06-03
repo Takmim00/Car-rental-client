@@ -8,7 +8,7 @@ const Main = () => {
       <div className='sticky top-0 z-50 backdrop-blur-2xl border-b border-b-red-400'> 
       <Navbar></Navbar>
       </div>
-      <div className="min-h-[calc(100vh-443px)]">
+      <div className="min-h-[calc(100vh-432px)]">
         <Outlet></Outlet>
       </div>
       <div className="bg-base-200">
