@@ -1,4 +1,6 @@
-import { Calendar, Car, Home, LogOut, Menu, Plus, X } from "lucide-react";
+"use client";
+
+import { Calendar, Car, Home, LogOut, Plus } from "lucide-react";
 import { useContext, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
@@ -24,7 +26,21 @@ const Navbar = () => {
     return location.pathname === path;
   };
 
-  const navLinks = [
+  // Bottom navigation links for mobile
+  const bottomNavLinks = [
+    { to: "/", label: "Home", icon: Home },
+    { to: "/availableCar", label: "Cars", icon: Car },
+    {
+      to: "/myBooking",
+      label: "Bookings",
+      icon: Calendar,
+      badge: user ? 2 : 0,
+    },
+    { to: "/addCar", label: "Add Car", icon: Plus },
+  ];
+
+  // Desktop navigation links
+  const desktopNavLinks = [
     { to: "/", label: "Home", icon: Home },
     { to: "/availableCar", label: "Available Cars", icon: Car },
     ...(user
@@ -37,29 +53,30 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
-      <div className=" px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
-            <Link to="/" className="flex gap-2 items-center">
-              <img src={logo} alt="" className="h-8" />
-            </Link>
-          </div>
+    <>
+      {/* Top Header - Desktop & Mobile */}
+      <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-14">
+            {/* Logo */}
+            <div className="flex-shrink-0 flex items-center ">
+              <Link to="/" className="flex gap-2 items-center">
+                <img src={logo} alt="" className="h-8" />
+              </Link>
+            </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navLinks.map((link) => {
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-1">
+              {desktopNavLinks.map((link) => {
                 const Icon = link.icon;
                 return (
                   <NavLink
                     key={link.to}
                     to={link.to}
-                    className={`flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 ${
+                    className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isActiveLink(link.to)
-                        ? "bg-blue-100 text-red-700 shadow-sm"
-                        : "text-gray-600 hover:text-red-600 hover:bg-gray-50"
+                        ? "bg-red-50 text-red-600"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                     }`}
                   >
                     <Icon className="h-4 w-4" />
@@ -68,40 +85,44 @@ const Navbar = () => {
                 );
               })}
             </div>
-          </div>
 
-          {/* Desktop Auth Section */}
-          <div className="hidden md:block">
-            <div className="ml-4 flex items-center md:ml-6">
+            {/* Desktop Auth Section */}
+            <div className="hidden md:flex items-center space-x-3">
               {user ? (
                 <div className="relative">
                   <button
                     onClick={toggleProfileDropdown}
-                    className="flex items-center space-x-3 text-sm rounded-full p-1 hover:bg-gray-50 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                    className="flex items-center space-x-3 text-sm rounded-full p-1 hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                   >
                     <img
                       className="h-10 w-10 rounded-full object-cover border-2 border-gray-200"
                       src={user.photoURL || "/default-avatar.png"}
                       alt={user.displayName || "Profile"}
+                      referrerPolicy="no-referrer"
                     />
                     <span className="text-gray-700 font-medium">
                       {user.displayName}
                     </span>
                   </button>
 
-                  {/* Profile Dropdown */}
+                  {/* Desktop Profile Dropdown */}
                   {isProfileDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 z-50">
-                      <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-100">
-                        <p className="font-medium">{user.displayName}</p>
-                        <p className="text-gray-500">{user.email}</p>
+                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 ring-1 ring-black ring-opacity-5 z-50">
+                      <div className="flex items-center justify-start gap-2 px-4 py-2">
+                        <div className="flex flex-col space-y-1 leading-none">
+                          <p className="font-medium">{user.displayName}</p>
+                          <p className="w-[200px] truncate text-sm text-gray-500">
+                            {user.email}
+                          </p>
+                        </div>
                       </div>
+                      <hr className="my-2" />
                       <button
                         onClick={logout}
-                        className="flex items-center space-x-2 w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 transition-colors duration-300"
+                        className="flex items-center space-x-2 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
                       >
                         <LogOut className="h-4 w-4" />
-                        <span>Logout</span>
+                        <span>Log out</span>
                       </button>
                     </div>
                   )}
@@ -109,93 +130,144 @@ const Navbar = () => {
               ) : (
                 <Link
                   to="/login"
-                  className="bg-gradient-to-r from-red-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+                  className="bg-gradient-to-r from-red-500 to-purple-600 hover:from-red-600 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200"
                 >
-                  Log In
+                  Sign In
+                </Link>
+              )}
+            </div>
+
+            {/* Mobile Profile/Menu Button */}
+            <div className="md:hidden flex items-center space-x-2">
+              {user ? (
+                <button
+                  onClick={toggleMobileMenu}
+                  className="relative h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                >
+                  <img
+                    src={user.photoURL || "/default-avatar.png"}
+                    alt={user.displayName}
+                    className="h-10 w-10 rounded-full object-cover border-2 border-gray-200"
+                  />
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  className="bg-gradient-to-r from-red-500 to-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
+                >
+                  Sign In
                 </Link>
               )}
             </div>
           </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={toggleMobileMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-red-600 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-red-500 transition-colors duration-300"
-            >
-              {isMobileMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
-            </button>
-          </div>
         </div>
-      </div>
 
-      {/* Mobile Navigation Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-200 bg-white shadow-lg">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            {navLinks.map((link) => {
+        {/* Mobile Profile Menu */}
+        {isMobileMenuOpen && user && (
+          <div className="md:hidden border-t border-gray-200 bg-white shadow-lg">
+            <div className="px-4 py-6 space-y-6">
+              <div className="flex items-center space-x-4">
+                <img
+                  src={user.photoURL || "/default-avatar.png"}
+                  alt={user.displayName}
+                  className="h-16 w-16 rounded-full object-cover border-2 border-gray-200"
+                />
+                <div>
+                  <h3 className="font-semibold text-lg text-gray-900">
+                    {user.displayName}
+                  </h3>
+                  <p className="text-sm text-gray-500">{user.email}</p>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Link
+                  to="/addCar"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <Plus className="h-5 w-5 text-gray-600" />
+                  <span className="font-medium">Add Car</span>
+                </Link>
+                <Link
+                  to="/myCar"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <Car className="h-5 w-5 text-gray-600" />
+                  <span className="font-medium">My Cars</span>
+                </Link>
+              </div>
+
+              <button
+                onClick={() => {
+                  logout();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center space-x-3 w-full p-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+              >
+                <LogOut className="h-5 w-5" />
+                <span className="font-medium">Log out</span>
+              </button>
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Bottom Navigation - Mobile Only */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
+        <div className="bg-white border-t border-gray-200 px-2 py-1 safe-area-pb">
+          <div className="flex items-center justify-around">
+            {bottomNavLinks.map((link) => {
               const Icon = link.icon;
+              const isActive = isActiveLink(link.to);
+
               return (
                 <NavLink
                   key={link.to}
                   to={link.to}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ${
-                    isActiveLink(link.to)
-                      ? "bg-blue-100 text-red-700 shadow-sm"
-                      : "text-gray-600 hover:text-red-600 hover:bg-gray-50"
+                  className={`flex flex-col items-center justify-center py-2 px-3 rounded-xl transition-all duration-200 relative min-w-[60px] ${
+                    isActive
+                      ? "bg-red-50 text-red-600"
+                      : "text-gray-600 hover:text-gray-900 active:bg-gray-50"
                   }`}
                 >
-                  <Icon className="h-5 w-5" />
-                  <span>{link.label}</span>
+                  <div className="relative">
+                    <Icon
+                      className={`h-6 w-6 ${
+                        isActive ? "text-red-600" : "text-gray-600"
+                      }`}
+                    />
+                    
+                  </div>
+                  <span
+                    className={`text-xs mt-1 font-medium ${
+                      isActive ? "text-red-600" : "text-gray-600"
+                    }`}
+                  >
+                    {link.label}
+                  </span>
                 </NavLink>
               );
             })}
           </div>
+        </div>
+      </div>
 
-          {/* Mobile Auth Section */}
-          <div className="pt-4 pb-3 border-t border-gray-200">
-            {user ? (
-              <div className="px-2 space-y-1">
-                <div className="flex items-center px-3 py-2">
-                  <img
-                    className="h-10 w-10 rounded-full object-cover border-2 border-gray-200"
-                    src={user.photoURL || "/default-avatar.png"}
-                    alt={user.displayName || "Profile"}
-                  />
-                  <div className="ml-3">
-                    <div className="text-base font-medium text-gray-800">
-                      {user.displayName}
-                    </div>
-                    <div className="text-sm text-gray-500">{user.email}</div>
-                  </div>
-                </div>
-                <button
-                  onClick={logout}
-                  className="flex items-center space-x-3 w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 transition-colors duration-300"
-                >
-                  <LogOut className="h-5 w-5" />
-                  <span>Logout</span>
-                </button>
-              </div>
-            ) : (
-              <div className="px-2">
-                <Link
-                  to="/login"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="block w-full text-center bg-gradient-to-r from-red-600 to-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
-                >
-                  Log In
-                </Link>
-              </div>
-            )}
-          </div>
+      {/* Floating Action Button - Mobile Only */}
+      {user && (
+        <div className="md:hidden fixed bottom-20 right-4 z-40">
+          <Link
+            to="/addCar"
+            className="flex items-center justify-center h-14 w-14 bg-gradient-to-r from-red-500 to-purple-600 hover:from-red-600 hover:to-purple-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95"
+          >
+            <Plus className="h-6 w-6" />
+          </Link>
         </div>
       )}
+
+      {/* Bottom padding for mobile content */}
+      <div className="md:hidden h-16" />
 
       {/* Overlay for profile dropdown */}
       {isProfileDropdownOpen && (
@@ -204,7 +276,7 @@ const Navbar = () => {
           onClick={() => setIsProfileDropdownOpen(false)}
         />
       )}
-    </nav>
+    </>
   );
 };
 
